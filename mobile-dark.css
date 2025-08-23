@@ -1,0 +1,151 @@
+/* Dark Theme Mobile Styles */
+
+/* Mobile Budget Results - Dark Theme */
+@media (max-width: 768px) {
+    body.dark-theme .budget-results,
+    body.dark-theme #budgetResult {
+        width: 95% !important;
+        max-width: 95vw !important;
+        margin: 15px auto 0 auto !important;
+        padding: 12px 15px;
+        font-size: 12px;
+        gap: 10px;
+        text-align: center;
+        min-height: 55px;
+        background: rgba(10, 10, 10, 0.98) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+    }
+    
+    body.dark-theme .budget-results.expanded,
+    body.dark-theme #budgetResult.expanded {
+        width: 95% !important;
+        max-width: 95vw !important;
+        padding: 15px 18px;
+        font-size: 13px;
+        min-height: 70px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6) !important;
+        border: 2px solid rgba(255, 255, 255, 0.25) !important;
+    }
+    
+    body.dark-theme .budget-results p {
+        font-size: 12px;
+        margin: 8px 0;
+        color: #ffffff;
+    }
+    
+    body.dark-theme .budget-results span,
+    body.dark-theme #budgetResult span {
+        color: #64b5f6 !important;
+        font-weight: 600;
+    }
+    
+    body.dark-theme .budget-results.expanded hr,
+    body.dark-theme #budgetResult.expanded hr {
+        border-top-color: rgba(255, 255, 255, 0.25) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    body.dark-theme .budget-results,
+    body.dark-theme #budgetResult {
+        width: 95% !important;
+        max-width: 95vw !important;
+        margin: 15px auto 0 auto !important;
+        padding: 10px 12px;
+        gap: 8px;
+        min-height: 80px;
+        font-size: 11px;
+    }
+    
+    body.dark-theme .budget-results.expanded,
+    body.dark-theme #budgetResult.expanded {
+        width: 95% !important;
+        max-width: 95vw !important;
+        padding: 15px 18px;
+        gap: 12px;
+        min-height: 100px;
+        font-size: 12px;
+    }
+    
+    body.dark-theme .budget-results p {
+        font-size: 11px;
+        margin: 6px 0;
+    }
+}
+
+/* Mobile Navigation Hover Effects - Dark Theme */
+@media (max-width: 768px) {
+    body.dark-theme nav a:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* Mobile Game Over Overlay - Dark Theme */
+@media (max-width: 768px) {
+    body.dark-theme .game-over-overlay {
+        width: 90%;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+    }
+    
+    body.dark-theme .game-over-overlay button {
+        padding: 12px 24px;
+        font-size: 14px;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+    }
+}
+
+/* Mobile Charts - Dark Theme */
+@media (max-width: 768px) {
+    body.dark-theme .chart-bar {
+        height: 30px;
+        box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
+    }
+    
+    body.dark-theme .income-breakdown-chart {
+        border-top-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    body.dark-theme .income-breakdown-chart h4 {
+        font-size: 16px;
+        color: var(--text-dark);
+    }
+}
+
+/* Mobile Buttons - Dark Theme */
+@media (max-width: 768px) {
+    body.dark-theme .btn {
+        padding: 10px 16px;
+        font-size: 14px;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: var(--text-dark);
+    }
+    
+    body.dark-theme .btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+    }
+}
+
+/* Mobile Results Columns - Dark Theme */
+@media (max-width: 768px) {
+    body.dark-theme .results-column {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    body.dark-theme .results-column h4 {
+        color: #ffffff;
+        border-bottom-color: rgba(255, 255, 255, 0.25);
+    }
+}

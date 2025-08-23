@@ -1,0 +1,851 @@
+/* Dark Theme Styles (OLED optimized) */
+body.dark-theme {
+    /* Dark theme variables */
+    --bg-gradient-dark: linear-gradient(45deg, #000000, #0a0a0a);
+    --nav-bg-dark: rgba(20, 20, 20, 0.7);
+    --text-dark: #ffffff;
+    --section-bg-dark: rgba(10, 10, 10, 0.95);
+    --border-dark: rgba(40, 40, 40, 0.3);
+    --shadow-dark: rgba(0, 0, 0, 0.3);
+    --chess-white-dark: rgba(30, 30, 30, 0.95);
+    --chess-black-dark: rgba(0, 0, 0, 0.95);
+    --game-over-bg-dark: rgba(0, 0, 0, 0.85);
+    --game-over-text-dark: #ffffff;
+    --game-over-border-dark: rgba(255, 255, 255, 0.1);
+    --game-over-shadow-dark: rgba(0, 0, 0, 0.3);
+    --game-over-button-bg-dark: rgba(255, 255, 255, 0.1);
+    --game-over-button-border-dark: rgba(255, 255, 255, 0.2);
+    
+    /* Budget Tracker Specific Variables */
+    --input-bg-dark: rgba(255, 255, 255, 0.1);
+    --input-border-dark: rgba(255, 255, 255, 0.2);
+    
+    /* Chart Colors for Dark Theme */
+    --chart-federal-taxes: linear-gradient(135deg, #dc3545, #b02a37);
+    --chart-state-taxes: linear-gradient(135deg, #fd7e14, #e8681e);
+    --chart-payroll-taxes: linear-gradient(135deg, #ffc107, #e6ae06);
+    --chart-pretax-deductions: linear-gradient(135deg, #0dcaf0, #0bb3d1);
+    --chart-posttax-deductions: linear-gradient(135deg, #d63384, #b02a5b);
+    --chart-bills: linear-gradient(135deg, #f8831a, #d96713);
+    --chart-take-home: linear-gradient(135deg, #20c997, #1aa081);
+    
+    /* Detail Chart Colors for Dark Theme */
+    --chart-detail-1: linear-gradient(135deg, #0dcaf0, #0bb3d1);
+    --chart-detail-2: linear-gradient(135deg, #dc3545, #b02a37);
+    --chart-detail-3: linear-gradient(135deg, #fd7e14, #e8681e);
+    --chart-detail-4: linear-gradient(135deg, #d63384, #b02a5b);
+    --chart-detail-5: linear-gradient(135deg, #20c997, #1aa081);
+    --chart-detail-6: linear-gradient(135deg, #f8831a, #d96713);
+    --chart-detail-7: linear-gradient(135deg, #ffc107, #e6ae06);
+    --chart-detail-8: linear-gradient(135deg, #6c757d, #495057);
+    --chart-detail-9: linear-gradient(135deg, #e83e8c, #d11a5b);
+    --chart-detail-10: linear-gradient(135deg, #6610f2, #520dc2);
+    --chart-detail-11: linear-gradient(135deg, #6f42c1, #59359a);
+    --chart-detail-12: linear-gradient(135deg, #17a2b8, #138496);
+    --chart-detail-13: linear-gradient(135deg, #28a745, #1e7e34);
+    --chart-detail-14: linear-gradient(135deg, #fd7e14, #e8681e);
+    --chart-detail-15: linear-gradient(135deg, #dc3545, #bd2130);
+    --chart-detail-16: linear-gradient(135deg, #6c757d, #545b62);
+    --chart-detail-17: linear-gradient(135deg, #007bff, #0056b3);
+    --chart-detail-18: linear-gradient(135deg, #ffc107, #d39e00);
+    --chart-detail-19: linear-gradient(135deg, #dc3545, #c82333);
+    --chart-detail-20: linear-gradient(135deg, #28a745, #218838);
+    --chart-detail-21: linear-gradient(135deg, #17a2b8, #117a8b);
+    --chart-detail-22: linear-gradient(135deg, #6f42c1, #5a32a3);
+    --chart-detail-23: linear-gradient(135deg, #e83e8c, #dc1c6b);
+    --chart-detail-24: linear-gradient(135deg, #fd7e14, #ec6707);
+    --chart-detail-25: linear-gradient(135deg, #20c997, #16a085);
+    --chart-detail-26: linear-gradient(135deg, #6610f2, #5a0fdb);
+    --chart-detail-27: linear-gradient(135deg, #495057, #373a3c);
+    --chart-detail-28: linear-gradient(135deg, #0dcaf0, #0bb5d3);
+    --chart-detail-29: linear-gradient(135deg, #198754, #145c32);
+    --chart-detail-30: linear-gradient(135deg, #f8831a, #e76500);
+    --chart-detail-31: linear-gradient(135deg, #b02a37, #8b1f2b);
+    --chart-detail-32: linear-gradient(135deg, #6c2c91, #512266);
+
+    /* Apply the background and color */
+    background: var(--bg-gradient-dark);
+    color: var(--text-dark);
+}
+
+/* Theme button styles */
+body.dark-theme #theme-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme #theme-button .sun-icon {
+    display: none;
+}
+
+body.dark-theme #theme-button .moon-icon {
+    display: block;
+}
+
+body.dark-theme #theme-button .rainbow-icon {
+    display: none;
+}
+
+body.dark-theme #theme-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Icon visibility */
+body.dark-theme .sun-icon {
+    display: none;
+}
+
+body.dark-theme .moon-icon {
+    display: block;
+}
+
+body.dark-theme .rainbow-icon {
+    display: none;
+}
+
+/* Navigation */
+body.dark-theme nav {
+    background: var(--nav-bg-dark);
+    border-color: var(--border-dark);
+}
+
+body.dark-theme nav a {
+    color: var(--text-dark);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme nav a::after {
+    background: radial-gradient(
+        circle at var(--x, 50%) var(--y, 50%),
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0.1) 35%,
+        transparent 70%
+    );
+}
+
+body.dark-theme nav a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-theme nav a:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Header */
+body.dark-theme header {
+    color: var(--text-dark);
+}
+
+/* Sections */
+body.dark-theme section {
+    background: var(--section-bg-dark);
+    color: var(--text-dark);
+    box-shadow: 0 8px 32px var(--shadow-dark);
+}
+
+/* Resume */
+body.dark-theme .resume-container {
+    background: rgba(20, 20, 20, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .resume-section h3 {
+    border-color: #eee;
+}
+
+body.dark-theme .resume-item .sub-heading {
+    color: #ccc;
+}
+
+/* Chess squares */
+body.dark-theme .chess-square.white {
+    background: var(--chess-white-dark);
+}
+
+body.dark-theme .chess-square.black {
+    background: var(--chess-black-dark);
+}
+
+/* Game over overlay */
+body.dark-theme .game-over-overlay {
+    background: var(--game-over-bg-dark);
+    color: var(--game-over-text-dark);
+    border: 1px solid var(--game-over-border-dark);
+    box-shadow: 0 4px 20px var(--game-over-shadow-dark);
+}
+
+body.dark-theme .game-over-overlay button {
+    background: var(--game-over-button-bg-dark);
+    border: 1px solid var(--game-over-button-border-dark);
+}
+
+/* Dark theme budget tracker */
+body.dark-theme #budgetTrackerContainer {
+    background: transparent;
+    color: var(--text-dark);
+}
+
+body.dark-theme .budget-tracker-header h2 {
+    color: var(--text-dark);
+}
+
+body.dark-theme .budget-form {
+    background: rgba(10, 10, 10, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* Dark theme inputs */
+body.dark-theme .input-group input[type="number"],
+body.dark-theme .input-group input[type="text"],
+body.dark-theme .input-group select {
+    background: var(--input-bg-dark);
+    border: 1px solid var(--input-border-dark);
+    color: var(--text-dark);
+}
+
+body.dark-theme .input-group input:focus,
+body.dark-theme .input-group select:focus {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+/* Dark theme radio and checkbox options */
+body.dark-theme .radio-option,
+body.dark-theme .checkbox-option {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-dark);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .radio-option:hover,
+body.dark-theme .checkbox-option:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+body.dark-theme .radio-option:has(input:checked),
+body.dark-theme .checkbox-option:has(input:checked) {
+    background: rgba(82, 183, 136, 0.2);
+    border-color: rgba(82, 183, 136, 0.4);
+    color: var(--text-dark);
+}
+
+body.dark-theme .radio-option:has(input:checked):hover,
+body.dark-theme .checkbox-option:has(input:checked):hover {
+    background: rgba(82, 183, 136, 0.3);
+    border-color: rgba(82, 183, 136, 0.6);
+}
+
+/* Dark theme deduction group styles */
+body.dark-theme .deduction-group {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-theme .retirement-type-toggle > label {
+    color: var(--text-dark);
+}
+
+/* Dark theme IRA, HSA, Retirement, and Other Deductions container styles */
+body.dark-theme .input-group:has(#iraToggle1),
+body.dark-theme .input-group:has(#iraToggle2),
+body.dark-theme .input-group:has(#hsaToggle1),
+body.dark-theme .input-group:has(#hsaToggle2),
+body.dark-theme .input-group:has(#retirementToggle1),
+body.dark-theme .input-group:has(#retirementToggle2),
+body.dark-theme .input-group:has(#otherDeductionsToggle1),
+body.dark-theme .input-group:has(#otherDeductionsToggle2) {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-theme .input-group:has(#iraToggle1) .deduction-group,
+body.dark-theme .input-group:has(#iraToggle2) .deduction-group,
+body.dark-theme .input-group:has(#hsaToggle1) .deduction-group,
+body.dark-theme .input-group:has(#hsaToggle2) .deduction-group,
+body.dark-theme .input-group:has(#retirementToggle1) .deduction-group,
+body.dark-theme .input-group:has(#retirementToggle2) .deduction-group,
+body.dark-theme .input-group:has(#otherDeductionsToggle1) .deduction-group,
+body.dark-theme .input-group:has(#otherDeductionsToggle2) .deduction-group {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Dark theme basic income container styles */
+body.dark-theme .person-inputs > .input-group:nth-child(2),
+body.dark-theme .person-inputs > .input-row:nth-child(3),
+body.dark-theme .person-inputs > .input-group:nth-child(4) {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Dark theme tax info and bills container styles */
+body.dark-theme .tax-info-container,
+body.dark-theme .bills-info-container {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0 10px 0;
+}
+
+/* Dark theme button styling */
+body.dark-theme .deduction-input-row .btn-primary {
+    background: rgba(100, 149, 237, 0.8) !important;
+    border-color: rgba(100, 149, 237, 0.6) !important;
+    color: white !important;
+}
+
+body.dark-theme .deduction-input-row .btn-primary:hover {
+    background: rgba(100, 149, 237, 0.9) !important;
+    border-color: rgba(100, 149, 237, 0.8) !important;
+}
+
+body.dark-theme .preset-deductions .btn-success,
+body.dark-theme .preset-bills .btn-success,
+body.dark-theme .bills-container .btn,
+body.dark-theme .bills-container button {
+    background: rgba(72, 187, 120, 0.8) !important;
+    border-color: rgba(72, 187, 120, 0.6) !important;
+    color: white !important;
+}
+
+body.dark-theme .preset-deductions .btn-success:hover,
+body.dark-theme .preset-bills .btn-success:hover,
+body.dark-theme .bills-container .btn:hover,
+body.dark-theme .bills-container button:hover {
+    background: rgba(72, 187, 120, 0.9) !important;
+    border-color: rgba(72, 187, 120, 0.8) !important;
+}
+
+/* Dark theme budget tracker results */
+body.dark-theme .budget-results,
+body.dark-theme #budgetResult {
+    background: rgba(10, 10, 10, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.dark-theme .budget-results.expanded,
+body.dark-theme #budgetResult.expanded {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+body.dark-theme .budget-results.expanded hr,
+body.dark-theme #budgetResult.expanded hr {
+    border-top-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+body.dark-theme .budget-results span,
+body.dark-theme #budgetResult span {
+    color: #64b5f6 !important;
+}
+
+/* Dark theme budget results columns */
+body.dark-theme .budget-results h3 {
+    color: #ffffff !important;
+}
+
+body.dark-theme .results-column {
+    background: rgba(15, 15, 15, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .results-column h4 {
+    color: #e3f2fd !important;
+    border-bottom-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+body.dark-theme .results-column p {
+    color: #cccccc !important;
+}
+
+body.dark-theme .results-column p strong {
+    color: #ffffff !important;
+}
+
+/* Dark theme chart support */
+body.dark-theme .income-breakdown-chart {
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .income-breakdown-chart h4 {
+    color: var(--text-dark);
+}
+
+body.dark-theme .chart-bar {
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Dark theme button styles */
+body.dark-theme .btn {
+    background: var(--input-bg-dark);
+    color: var(--text-dark);
+    border-color: var(--input-border-dark);
+}
+
+body.dark-theme .btn:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark theme footer */
+body.dark-theme footer {
+    background: var(--nav-bg-dark);
+    border-color: var(--border-dark);
+    color: var(--text-dark);
+}
+
+/* Dark theme game canvases */
+body.dark-theme .game-canvas,
+body.dark-theme #flappyBirdCanvas,
+body.dark-theme #pongCanvas {
+    border-color: var(--border-dark);
+    background: #1a1a2e;
+}
+
+body.dark-theme .game-info {
+    color: var(--text-dark);
+}
+
+/* Dark theme game button styles */
+body.dark-theme .game-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-dark);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .game-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+body.dark-theme .game-button::after {
+    background: radial-gradient(
+        circle at var(--x, 50%) var(--y, 50%),
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0.1) 35%,
+        transparent 70%
+    );
+}
+
+body.dark-theme .game-button.restart {
+    background: rgba(82, 183, 136, 0.2);
+    border-color: rgba(82, 183, 136, 0.3);
+    color: var(--text-dark);
+}
+
+body.dark-theme .game-button.restart:hover {
+    background: rgba(82, 183, 136, 0.25);
+    border-color: rgba(82, 183, 136, 0.4);
+}
+
+/* Dark theme back button styles */
+body.dark-theme .back-button,
+body.dark-theme .chess-control-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-dark);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .back-button:hover,
+body.dark-theme .chess-control-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme .chess-control-button.restart {
+    background: rgba(82, 183, 136, 0.2);
+    border-color: rgba(82, 183, 136, 0.3);
+    color: var(--text-dark);
+}
+
+body.dark-theme .chess-control-button.restart:hover {
+    background: rgba(82, 183, 136, 0.25);
+    border-color: rgba(82, 183, 136, 0.4);
+}
+
+/* Dark theme game score displays */
+body.dark-theme .game-score-display {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-dark);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .game-score-separator {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme .game-over-screen {
+    background: rgba(30, 30, 60, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-dark);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .game-over-screen button {
+    background: rgba(82, 183, 136, 0.2);
+    border: 1px solid rgba(82, 183, 136, 0.3);
+    color: var(--text-dark);
+}
+
+body.dark-theme .game-over-screen button:hover {
+    background: rgba(82, 183, 136, 0.25);
+    border-color: rgba(82, 183, 136, 0.4);
+}
+
+/* Dark theme chess board */
+body.dark-theme #chessBoard {
+    background: rgba(30, 30, 60, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .chess-square.white {
+    background: rgba(180, 180, 200, 0.95);
+}
+
+body.dark-theme .chess-square.black {
+    background: rgba(60, 60, 90, 0.95);
+}
+
+body.dark-theme .chess-square.selected {
+    background: rgba(82, 183, 136, 0.4);
+}
+
+/* Dark theme game info */
+body.dark-theme .game-info {
+    color: var(--text-dark);
+}
+
+body.dark-theme .game-info-control label {
+    color: var(--text-dark);
+}
+
+body.dark-theme .control-display {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-dark);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark theme save button */
+body.dark-theme .control-button {
+    background: rgba(108, 117, 125, 0.8) !important;
+    border-color: rgba(108, 117, 125, 0.6) !important;
+    color: white !important;
+}
+
+body.dark-theme .control-button:hover {
+    background: rgba(108, 117, 125, 1) !important;
+    border-color: rgba(108, 117, 125, 0.8) !important;
+}
+
+body.dark-theme .save-button.active {
+    background: rgba(72, 187, 120, 0.8) !important;
+    border-color: rgba(72, 187, 120, 0.6) !important;
+    color: white !important;
+}
+
+body.dark-theme .save-button.active:hover {
+    background: rgba(72, 187, 120, 0.9) !important;
+    border-color: rgba(72, 187, 120, 0.8) !important;
+}
+
+/* Force dark theme chart colors */
+body.dark-theme .chart-segment.federal-taxes { 
+    background: linear-gradient(135deg, #dc3545, #b02a37) !important; 
+}
+body.dark-theme .chart-segment.state-taxes { 
+    background: linear-gradient(135deg, #fd7e14, #e8681e) !important; 
+}
+body.dark-theme .chart-segment.payroll-taxes { 
+    background: linear-gradient(135deg, #ffc107, #e6ae06) !important; 
+}
+body.dark-theme .chart-segment.pretax-deductions { 
+    background: linear-gradient(135deg, #0dcaf0, #0bb3d1) !important; 
+}
+body.dark-theme .chart-segment.posttax-deductions { 
+    background: linear-gradient(135deg, #d63384, #b02a5b) !important; 
+}
+body.dark-theme .chart-segment.bills { 
+    background: linear-gradient(135deg, #f8831a, #d96713) !important; 
+}
+body.dark-theme .chart-segment.take-home { 
+    background: linear-gradient(135deg, #20c997, #1aa081) !important; 
+}
+
+/* Force dark theme legend colors */
+body.dark-theme .legend-color.federal-taxes { 
+    background: linear-gradient(135deg, #dc3545, #b02a37) !important; 
+}
+body.dark-theme .legend-color.state-taxes { 
+    background: linear-gradient(135deg, #fd7e14, #e8681e) !important; 
+}
+body.dark-theme .legend-color.payroll-taxes { 
+    background: linear-gradient(135deg, #ffc107, #e6ae06) !important; 
+}
+body.dark-theme .legend-color.pretax-deductions { 
+    background: linear-gradient(135deg, #0dcaf0, #0bb3d1) !important; 
+}
+body.dark-theme .legend-color.posttax-deductions { 
+    background: linear-gradient(135deg, #d63384, #b02a5b) !important; 
+}
+body.dark-theme .legend-color.bills { 
+    background: linear-gradient(135deg, #f8831a, #d96713) !important; 
+}
+body.dark-theme .legend-color.take-home { 
+    background: linear-gradient(135deg, #20c997, #1aa081) !important; 
+}
+
+/* Dark theme chart container backgrounds */
+body.dark-theme .chart-container {
+    background: rgba(20, 20, 20, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+body.dark-theme .detail-chart-container {
+    background: rgba(20, 20, 20, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+body.dark-theme .chart-title {
+    color: #ffffff !important;
+}
+
+body.dark-theme .chart-legend {
+    background: rgba(10, 10, 10, 0) !important;
+    color: #ffffff !important;
+}
+
+body.dark-theme .legend-item {
+    color: #ffffff !important;
+}
+
+/* Dark theme legend items - match standard container styling */
+body.dark-theme .legend-item {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    color: #ffffff !important;
+}
+
+/* Override for detail chart legend items - make them transparent */
+body.dark-theme #detailChartLegend .legend-item {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 8px !important;
+    color: #ffffff !important;
+}
+
+/* Fix legend text color for dark theme */
+body.dark-theme .legend-text {
+    color: #ffffff !important;
+    font-weight: 500;
+}
+
+/* Fix chart segment text visibility */
+body.dark-theme .chart-segment {
+    color: #ffffff !important;
+}
+
+body.dark-theme .chart-segment-label {
+    color: #ffffff !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Fix detail chart container */
+body.dark-theme #detailChartContainer {
+    background: transparent !important;
+    border: none !important;
+    border-top: 2px solid rgba(100, 181, 246, 0.4) !important;
+    color: #ffffff !important;
+}
+
+body.dark-theme .detail-chart-header {
+    color: #ffffff !important;
+}
+
+body.dark-theme .detail-chart-header h3 {
+    color: #ffffff !important;
+}
+
+body.dark-theme .chart-controls {
+    background: rgba(20, 20, 20, 0.8) !important;
+    color: #ffffff !important;
+}
+
+body.dark-theme .chart-controls select {
+    background: rgba(40, 40, 40, 0.9) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+body.dark-theme .chart-controls button {
+    background: rgba(40, 40, 40, 0.9) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+body.dark-theme .chart-controls button:hover {
+    background: rgba(60, 60, 60, 0.9) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Fix any text elements within charts and bills */
+body.dark-theme .bills-list p {
+    color: #cccccc !important;
+}
+
+body.dark-theme .bills-list div {
+    color: #cccccc !important;
+}
+
+/* Fix any dark text in chart areas */
+body.dark-theme .chart-area p {
+    color: #ffffff !important;
+}
+
+body.dark-theme .chart-area div {
+    color: #ffffff !important;
+}
+
+/* Fix placeholder and helper text */
+body.dark-theme .budget-tracker p {
+    color: #cccccc !important;
+}
+
+body.dark-theme .budget-tracker span:not([id*="legend"]) {
+    color: #cccccc !important;
+}
+
+/* Specifically target common dark text colors */
+body.dark-theme [style*="color: #666"] {
+    color: #cccccc !important;
+}
+
+body.dark-theme [style*="color: #555"] {
+    color: #cccccc !important;
+}
+
+body.dark-theme [style*="color: #333"] {
+    color: #ffffff !important;
+}
+
+/* Fix any chart value displays */
+body.dark-theme .chart-value {
+    color: #ffffff !important;
+}
+
+body.dark-theme .chart-percentage {
+    color: #ffffff !important;
+}
+
+/* Dark theme for budget result container and related elements */
+body.dark-theme #budgetResult {
+    background: rgba(10, 10, 10, 0.95) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-theme #budgetTrackerContainer {
+    background: transparent !important;
+    color: #ffffff !important;
+}
+
+body.dark-theme .period-selector {
+    background: rgba(40, 40, 40, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+}
+
+body.dark-theme .period-selector:focus {
+    background: rgba(50, 50, 50, 0.9) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Dark theme for chart titles and labels */
+body.dark-theme h3 {
+    color: #ffffff !important;
+}
+
+body.dark-theme .chart-header {
+    color: #ffffff !important;
+}
+
+/* Dark theme for any chart wrapper divs */
+body.dark-theme .income-breakdown {
+    background: rgba(20, 20, 20, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+body.dark-theme .detail-chart {
+    background: rgba(20, 20, 20, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+/* Fix the main white background containers */
+body.dark-theme .budget-results {
+    background: rgba(20, 20, 20, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+body.dark-theme .income-breakdown-chart {
+    background: rgba(20, 20, 20, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+body.dark-theme .results-column {
+    background: rgba(30, 30, 30, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+}
+
+body.dark-theme .results-column h4 {
+    color: #ffffff !important;
+}
+
+body.dark-theme .results-column p {
+    color: #cccccc !important;
+}
+
+body.dark-theme .chart-header h3 {
+    color: #ffffff !important;
+}

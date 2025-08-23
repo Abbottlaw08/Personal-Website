@@ -1,0 +1,452 @@
+/* Light Theme Styles */
+:root {
+    /* Light theme variables */
+    --bg-gradient-light: linear-gradient(45deg, #e8f0ff, #ffffff);
+    --nav-bg-light: rgba(255, 255, 255, 0.2);
+    --text-light: #2c3e50;
+    --section-bg-light: rgba(255, 255, 255, 0.95);
+    --border-light: rgba(255, 255, 255, 0.3);
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --chess-white-light: rgba(240, 240, 240, 0.95);
+    --chess-black-light: rgba(44, 62, 80, 0.95);
+    --game-over-bg-light: rgba(255, 255, 255, 0.85);
+    --game-over-text-light: #2c3e50;
+    --game-over-border-light: rgba(0, 0, 0, 0.1);
+    --game-over-shadow-light: rgba(0, 0, 0, 0.2);
+    --game-over-button-bg-light: rgba(0, 0, 0, 0.05);
+    --game-over-button-border-light: rgba(0, 0, 0, 0.1);
+    
+    /* Budget Tracker Specific Variables */
+    --input-bg-light: rgba(255, 255, 255, 0.9);
+    --input-border-light: rgba(0, 0, 0, 0.1);
+    
+    /* Chart Colors for Light Theme (default) */
+    --chart-federal-taxes: linear-gradient(135deg, #e74c3c, #c0392b);
+    --chart-state-taxes: linear-gradient(135deg, #f39c12, #e67e22);
+    --chart-payroll-taxes: linear-gradient(135deg, #f1c40f, #f39c12);
+    --chart-pretax-deductions: linear-gradient(135deg, #3498db, #2980b9);
+    --chart-posttax-deductions: linear-gradient(135deg, #9b59b6, #8e44ad);
+    --chart-bills: linear-gradient(135deg, #e67e22, #d35400);
+    --chart-take-home: linear-gradient(135deg, #27ae60, #229954);
+    
+    /* Detail Chart Colors for Light Theme (muted/subtle) */
+    --chart-detail-1: linear-gradient(135deg, #7fb3d3, #5d9ccc);
+    --chart-detail-2: linear-gradient(135deg, #d1857a, #c4736a);
+    --chart-detail-3: linear-gradient(135deg, #dab169, #d1a55f);
+    --chart-detail-4: linear-gradient(135deg, #b584b5, #a876a8);
+    --chart-detail-5: linear-gradient(135deg, #7db395, #6da685);
+    --chart-detail-6: linear-gradient(135deg, #d19669, #c5895f);
+    --chart-detail-7: linear-gradient(135deg, #d4c673, #c8b966);
+    --chart-detail-8: linear-gradient(135deg, #7a8b9a, #6b7c8b);
+    --chart-detail-9: linear-gradient(135deg, #d1728f, #c46582);
+    --chart-detail-10: linear-gradient(135deg, #9d7db0, #9070a3);
+    --chart-detail-11: linear-gradient(135deg, #7d88b5, #707ba8);
+    --chart-detail-12: linear-gradient(135deg, #6eb4e5, #61a7d8);
+    --chart-detail-13: linear-gradient(135deg, #6eb9e8, #61acd8);
+    --chart-detail-14: linear-gradient(135deg, #6bb5c7, #5ea8ba);
+    --chart-detail-15: linear-gradient(135deg, #6db0a8, #60a39b);
+    --chart-detail-16: linear-gradient(135deg, #85b58e, #78a881);
+    --chart-detail-17: linear-gradient(135deg, #a7c285, #9ab578);
+    --chart-detail-18: linear-gradient(135deg, #c7d175, #bac468);
+    --chart-detail-19: linear-gradient(135deg, #e5d375, #d8c668);
+    --chart-detail-20: linear-gradient(135deg, #dbb569, #cea85f);
+    --chart-detail-21: linear-gradient(135deg, #d1a269, #c4955f);
+    --chart-detail-22: linear-gradient(135deg, #d18e6c, #c4815f);
+    --chart-detail-23: linear-gradient(135deg, #a58573, #987866);
+    --chart-detail-24: linear-gradient(135deg, #8fa2b0, #8295a3);
+    --chart-detail-25: linear-gradient(135deg, #b3b3b3, #a6a6a6);
+    --chart-detail-26: linear-gradient(135deg, #6ea2d9, #6195cc);
+    --chart-detail-27: linear-gradient(135deg, #7fb08a, #72a37d);
+    --chart-detail-28: linear-gradient(135deg, #d9a869, #cc9b5f);
+    --chart-detail-29: linear-gradient(135deg, #a37ca2, #966f95);
+    --chart-detail-30: linear-gradient(135deg, #bf7575, #b26868);
+    --chart-detail-31: linear-gradient(135deg, #7384b3, #6677a6);
+    --chart-detail-32: linear-gradient(135deg, #7fb08a, #72a37d);
+}
+
+/* Light theme body */
+body {
+    background: var(--bg-gradient-light);
+    color: var(--text-light);
+}
+
+/* Theme button styles */
+#theme-button {
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+#theme-button:hover {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+/* Icon visibility */
+.sun-icon {
+    display: block;
+}
+
+.moon-icon,
+.rainbow-icon {
+    display: none;
+}
+
+/* Navigation */
+nav {
+    background: var(--nav-bg-light);
+    border-color: var(--border-light);
+}
+
+nav a {
+    color: var(--text-light);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 6px var(--shadow-light);
+}
+
+nav a::after {
+    background: radial-gradient(
+        circle at var(--x, 50%) var(--y, 50%),
+        rgba(44, 62, 80, 0.25) 0%,
+        rgba(44, 62, 80, 0.12) 35%,
+        transparent 70%
+    );
+}
+
+nav a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+nav a:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+header {
+    color: var(--text-light);
+}
+
+/* Sections */
+section {
+    background: var(--section-bg-light);
+    box-shadow: 0 8px 32px var(--shadow-light);
+}
+
+/* Resume */
+.resume-container {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.resume-section h3 {
+    border-bottom: 2px solid #333;
+}
+
+.resume-item .sub-heading {
+    color: #555;
+}
+
+/* Chess squares */
+.chess-square.white {
+    background: var(--chess-white-light);
+}
+
+.chess-square.black {
+    background: var(--chess-black-light);
+}
+
+/* Game over overlay */
+.game-over-overlay {
+    background: var(--game-over-bg-light);
+    color: var(--game-over-text-light);
+    border: 1px solid var(--game-over-border-light);
+    box-shadow: 0 4px 20px var(--game-over-shadow-light);
+}
+
+.game-over-overlay button {
+    background: var(--game-over-button-bg-light);
+    border: 1px solid var(--game-over-button-border-light);
+}
+
+/* Light theme budget tracker */
+#budgetTrackerContainer {
+    background: transparent;
+    color: var(--text-light);
+}
+
+.budget-tracker-header h2 {
+    color: var(--text-light);
+}
+
+.budget-form {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* Light theme inputs */
+.input-group input[type="number"],
+.input-group input[type="text"],
+.input-group select {
+    background: var(--input-bg-light);
+    border: 1px solid var(--input-border-light);
+    color: var(--text-light);
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Light theme radio and checkbox options */
+.radio-option,
+.checkbox-option {
+    background: var(--input-bg-light);
+    border: 1px solid var(--input-border-light);
+    color: var(--text-light);
+}
+
+.radio-option:hover,
+.checkbox-option:hover {
+    border-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.radio-option:has(input:checked),
+.checkbox-option:has(input:checked) {
+    background: rgba(82, 183, 136, 0.2);
+    border-color: rgba(82, 183, 136, 0.4);
+    color: #2c3e50;
+}
+
+.radio-option:has(input:checked):hover,
+.checkbox-option:has(input:checked):hover {
+    background: rgba(82, 183, 136, 0.3);
+    border-color: rgba(82, 183, 136, 0.6);
+}
+
+/* Light theme deduction group styles */
+.deduction-group {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.retirement-type-toggle > label {
+    color: var(--text-light);
+}
+
+/* Light theme IRA, HSA, Retirement, and Other Deductions container styles */
+.input-group:has(#iraToggle1),
+.input-group:has(#iraToggle2),
+.input-group:has(#hsaToggle1),
+.input-group:has(#hsaToggle2),
+.input-group:has(#retirementToggle1),
+.input-group:has(#retirementToggle2),
+.input-group:has(#otherDeductionsToggle1),
+.input-group:has(#otherDeductionsToggle2) {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.input-group:has(#iraToggle1) .deduction-group,
+.input-group:has(#iraToggle2) .deduction-group,
+.input-group:has(#hsaToggle1) .deduction-group,
+.input-group:has(#hsaToggle2) .deduction-group,
+.input-group:has(#retirementToggle1) .deduction-group,
+.input-group:has(#retirementToggle2) .deduction-group,
+.input-group:has(#otherDeductionsToggle1) .deduction-group,
+.input-group:has(#otherDeductionsToggle2) .deduction-group {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Light theme basic income container styles */
+.person-inputs > .input-group:nth-child(2),
+.person-inputs > .input-row:nth-child(3),
+.person-inputs > .input-group:nth-child(4) {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Light theme tax info and bills container styles */
+.tax-info-container,
+.bills-info-container {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0 10px 0;
+}
+
+/* Light theme legend items - match standard container styling */
+.legend-item {
+    background: rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+}
+
+/* Override for detail chart legend items - make them transparent */
+#detailChartLegend .legend-item {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 8px !important;
+}
+
+/* Light theme button styling */
+.deduction-input-row .btn-primary {
+    background: rgba(0, 123, 255, 0.9) !important;
+    border-color: rgba(0, 123, 255, 0.7) !important;
+    color: white !important;
+}
+
+.deduction-input-row .btn-primary:hover {
+    background: rgba(0, 123, 255, 1) !important;
+    border-color: rgba(0, 123, 255, 0.9) !important;
+}
+
+.preset-deductions .btn-success,
+.preset-bills .btn-success,
+.bills-container .btn,
+.bills-container button {
+    background: rgba(40, 167, 69, 0.9) !important;
+    border-color: rgba(40, 167, 69, 0.7) !important;
+    color: white !important;
+}
+
+.preset-deductions .btn-success:hover,
+.preset-bills .btn-success:hover,
+.bills-container .btn:hover,
+.bills-container button:hover {
+    background: rgba(40, 167, 69, 1) !important;
+    border-color: rgba(40, 167, 69, 0.9) !important;
+}
+
+/* Budget tracker results */
+.budget-results,
+#budgetResult {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: var(--text-light) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+}
+
+.budget-results.expanded,
+#budgetResult.expanded {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+    border: 2px solid rgba(0, 0, 0, 0.15) !important;
+}
+
+.budget-results.expanded hr,
+#budgetResult.expanded hr {
+    border-top-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.budget-results span,
+#budgetResult span {
+    color: #007bff !important;
+}
+
+/* Light theme budget results columns */
+.budget-results h3 {
+    color: #2c3e50 !important;
+}
+
+.results-column {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+.results-column h4 {
+    color: #34495e !important;
+    border-bottom-color: rgba(52, 73, 94, 0.25) !important;
+}
+
+.results-column p {
+    color: #555555 !important;
+}
+
+.results-column p strong {
+    color: #2c3e50 !important;
+}
+
+/* Chart support */
+.income-breakdown-chart {
+    border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+.income-breakdown-chart h4 {
+    color: var(--text-light);
+}
+
+.chart-bar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Button styles */
+.btn {
+    background: var(--input-bg-light);
+    color: var(--text-light);
+    border-color: var(--input-border-light);
+}
+
+.btn:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+footer {
+    background: var(--nav-bg-light);
+    border-color: var(--border-light);
+    color: var(--text-light);
+}
+
+/* Game canvases */
+.game-canvas,
+#flappyBirdCanvas,
+#pongCanvas {
+    border-color: var(--border-light);
+    background: #87CEEB;
+}
+
+.game-info {
+    color: var(--text-light);
+}
+
+/* Light theme save button */
+.control-button {
+    background: rgba(108, 117, 125, 0.9) !important;
+    border-color: rgba(108, 117, 125, 0.7) !important;
+    color: white !important;
+}
+
+.control-button:hover {
+    background: rgba(108, 117, 125, 1) !important;
+    border-color: rgba(108, 117, 125, 0.9) !important;
+}
+
+.save-button.active {
+    background: rgba(40, 167, 69, 0.9) !important;
+    border-color: rgba(40, 167, 69, 0.7) !important;
+    color: white !important;
+}
+
+.save-button.active:hover {
+    background: rgba(40, 167, 69, 1) !important;
+    border-color: rgba(40, 167, 69, 0.9) !important;
+}
