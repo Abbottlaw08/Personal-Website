@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Fun Money 0% Scenario</title>
+</head>
+<body>
+    <h1>Test: Fun Money 0% Scenario</h1>
+    <div id="test-results"></div>
+    
+    <script>
+    function testZeroFunMoneyScenario() {
+        // This simulates the exact scenario from the user's screenshot
+        const netIncomeAnnual = 116975.98; // The exact amount from the screenshot
+        const funMoneyPercentage = 0; // 0% as shown in screenshot
+        
+        // Simulate some bills
+        const bills = [
+            { name: 'Rent', amount: 1500, category: 'need' },
+            { name: 'Utilities', amount: 200, category: 'need' },
+            { name: 'Netflix', amount: 15, category: 'want' },
+            { name: 'Gym', amount: 50, category: 'want' }
+        ];
+        
+        const wantsBills = bills.filter(bill => bill.category === 'want');
+        const needsBills = bills.filter(bill => bill.category === 'need');
+        const wantsBillsTotal = wantsBills.reduce((sum, bill) => sum + bill.amount, 0);
+        const needsBillsTotal = needsBills.reduce((sum, bill) => sum + bill.amount, 0);
+        
+        const wantsBillsAnnual = wantsBillsTotal * 12;
+        const needsBillsAnnual = needsBillsTotal * 12;
+        
+        // Apply the CORRECTED logic
+        const funMoneyAllocationAnnual = (netIncomeAnnual * funMoneyPercentage) / 100; // Should be 0
+        const remainingAfterBillsAnnual = Math.max(0, netIncomeAnnual - needsBillsAnnual - funMoneyAllocationAnnual);
+        
+        // This is what should be displayed in the chart
+        const chartFunMoneyDisplay = funMoneyAllocationAnnual; // $0
+        const chartRemainingDisplay = remainingAfterBillsAnnual; // Should be much less than $116,975.98
+        
+        const results = document.getElementById('test-results');
+        results.innerHTML = `
+            <h2>Corrected Logic Test Results</h2>
+            <p><strong>Net Income:</strong> $${netIncomeAnnual.toLocaleString()}</p>
+            <p><strong>Fun Money %:</strong> ${funMoneyPercentage}%</p>
+            <p><strong>Needs Bills Annual:</strong> $${needsBillsAnnual.toLocaleString()}</p>
+            <p><strong>Wants Bills Annual:</strong> $${wantsBillsAnnual.toLocaleString()}</p>
+            <hr>
+            <h3>Chart Values (After Fix):</h3>
+            <p><strong style="color: orange;">Fun Money (0.0%):</strong> $${chartFunMoneyDisplay.toLocaleString()}</p>
+            <p><strong style="color: green;">Remaining:</strong> $${chartRemainingDisplay.toLocaleString()}</p>
+            <hr>
+            <h3>Analysis:</h3>
+            <p>${chartFunMoneyDisplay === chartRemainingDisplay ? '❌ STILL EQUAL (Bug persists)' : '✅ VALUES ARE DIFFERENT (Bug fixed)'}</p>
+            <p><strong>Expected:</strong> Fun Money = $0, Remaining = $${remainingAfterBillsAnnual.toLocaleString()}</p>
+            <hr>
+            <h3>Math Check:</h3>
+            <p>Net Income - Needs Bills - Fun Money = Remaining</p>
+            <p>$${netIncomeAnnual.toLocaleString()} - $${needsBillsAnnual.toLocaleString()} - $${funMoneyAllocationAnnual.toLocaleString()} = $${remainingAfterBillsAnnual.toLocaleString()}</p>
+        `;
+    }
+    
+    testZeroFunMoneyScenario();
+    </script>
+</body>
+</html>

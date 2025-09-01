@@ -11,7 +11,28 @@ body.rainbow-theme {
         radial-gradient(ellipse 600px 400px at 50% 10%, rgba(255, 200, 220, 0.7) 0%, rgba(255, 200, 220, 0.5) 40%, rgba(255, 200, 220, 0.2) 70%, transparent 90%),
         radial-gradient(ellipse 850px 550px at 30% 90%, rgba(180, 255, 200, 0.7) 0%, rgba(180, 255, 200, 0.5) 40%, rgba(180, 255, 200, 0.2) 70%, transparent 90%);
     --text-rainbow: #4a4a4a;
+    --section-bg-rainbow: rgba(255, 255, 255, 0.95);
+    --section-bg-light: rgba(255, 255, 255, 0.8);
     --shadow-rainbow: rgba(255, 105, 180, 0.2);
+    --shadow-light: rgba(255, 105, 180, 0.3);
+    --border-rainbow: rgba(255, 105, 180, 0.3);
+    --input-border-light: rgba(255, 105, 180, 0.15);
+    
+    /* Interactive element variables */
+    --input-bg-rainbow: rgba(255, 255, 255, 0.9);
+    --input-border-rainbow: rgba(255, 105, 180, 0.2);
+    --input-focus-border: rgba(255, 105, 180, 0.5);
+    --input-focus-shadow: rgba(255, 105, 180, 0.3);
+    
+    /* Button variables */
+    --btn-bg: rgba(255, 182, 193, 0.2);
+    --btn-border: rgba(255, 105, 180, 0.3);
+    --btn-hover-bg: rgba(255, 182, 193, 0.3);
+    --btn-hover-border: rgba(255, 105, 180, 0.4);
+    --btn-selected-bg: rgba(168, 237, 234, 0.4);
+    --btn-selected-border: rgba(168, 237, 234, 0.6);
+    
+    /* Game specific variables */
     --chess-white-rainbow: rgba(255, 240, 245, 0.95);
     --chess-black-rainbow: rgba(255, 182, 193, 0.95);
     --game-over-bg-rainbow: rgba(255, 255, 255, 0.9);
@@ -20,6 +41,11 @@ body.rainbow-theme {
     --game-over-shadow-rainbow: rgba(255, 105, 180, 0.3);
     --game-over-button-bg-rainbow: rgba(255, 182, 193, 0.2);
     --game-over-button-border-rainbow: rgba(255, 105, 180, 0.3);
+    
+    /* Accent colors for interactions */
+    --accent-color: #ff6b9d;
+    --accent-bg: rgba(255, 107, 157, 0.1);
+    --accent-shadow: rgba(255, 107, 157, 0.2);
     
     /* Chart Colors for Rainbow Theme */
     --chart-federal-taxes: linear-gradient(135deg, #ff6b9d, #ff8fab);
@@ -99,14 +125,22 @@ body.rainbow-theme::before {
 
 /* Theme button styles */
 body.rainbow-theme #theme-button {
-    background: rgba(255, 255, 255, 0.3);
-    border: 2px solid rgba(255, 105, 180, 0.4);
-    box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+    background: var(--btn-bg);
+    border: 2px solid var(--btn-hover-border);
+    box-shadow: 0 4px 12px var(--shadow-light),
+                inset 0 0 0 1px var(--section-bg-light);
 }
 
 body.rainbow-theme #theme-button .rainbow-icon {
     display: block;
+}
+
+body.rainbow-theme #theme-button:hover {
+    background: var(--btn-hover-bg);
+    border-color: var(--input-focus-border);
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px var(--shadow-light),
+                inset 0 0 0 1px var(--section-bg-rainbow);
 }
 
 /* Icon visibility */
@@ -154,11 +188,19 @@ body.rainbow-theme .rainbow-icon {
 
 /* Navigation */
 body.rainbow-theme nav {
-    background: rgba(255, 255, 255, 0.65);
-    border-color: rgba(255, 255, 255, 0.3);
+    background: var(--section-bg-light);
+    border-color: var(--input-border-light);
     box-shadow: 0 4px 20px var(--shadow-rainbow);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+}
+
+body.rainbow-theme nav a {
+    color: var(--text-rainbow);
+    background: var(--btn-bg);
+    border: 1px solid var(--btn-border);
+    box-shadow: 0 4px 8px var(--shadow-rainbow),
+                inset 0 0 0 1px var(--btn-bg);
 }
 
 body.rainbow-theme nav a::after {
@@ -179,8 +221,8 @@ body.rainbow-theme nav a::after {
 }
 
 body.rainbow-theme nav a:hover {
-    background: rgba(255, 255, 255, 0.8);
-    border-color: rgba(255, 255, 255, 0.6);
+    background: var(--btn-hover-bg);
+    border-color: var(--btn-hover-border);
     box-shadow: 0 6px 12px var(--shadow-rainbow);
 }
 
@@ -195,22 +237,22 @@ body.rainbow-theme header {
 
 /* Sections */
 body.rainbow-theme section {
-    background: rgba(255, 255, 255, 0.7);
+    background: var(--section-bg-rainbow);
     color: var(--text-rainbow);
     box-shadow: 0 8px 32px var(--shadow-rainbow);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid var(--input-border-light);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
 
 /* Resume */
 body.rainbow-theme .resume-container {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: var(--section-bg-light);
+    border: 1px solid var(--input-border-rainbow);
 }
 
 body.rainbow-theme .resume-section h3 {
-    border-color: #ff69b4;
+    border-color: var(--accent-color);
 }
 
 body.rainbow-theme .resume-item .sub-heading {
@@ -267,23 +309,25 @@ body.rainbow-theme .budget-form {
 body.rainbow-theme .input-group input[type="number"],
 body.rainbow-theme .input-group input[type="text"],
 body.rainbow-theme .input-group select {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: var(--input-bg-rainbow);
+    border: 1px solid var(--input-border-rainbow);
     color: var(--text-rainbow);
 }
 
 body.rainbow-theme .input-group input:focus,
 body.rainbow-theme .input-group select:focus {
-    border-color: #ff6b6b;
-    box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 10px var(--input-focus-shadow);
 }
 
 /* Rainbow theme radio and checkbox options */
 body.rainbow-theme .radio-option,
 body.rainbow-theme .checkbox-option {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: var(--btn-bg);
+    border: 1px solid var(--btn-border);
     color: var(--text-rainbow);
+    box-shadow: 0 4px 8px var(--shadow-rainbow),
+                inset 0 0 0 1px var(--btn-bg);
 }
 
 body.rainbow-theme .radio-option:hover,
@@ -294,30 +338,27 @@ body.rainbow-theme .checkbox-option:hover {
         rgba(69, 183, 209, 0.3) 50%,
         rgba(150, 206, 180, 0.3) 75%,
         rgba(255, 105, 180, 0.3) 100%);
-    border-color: rgba(255, 105, 180, 0.5);
-    box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
+    border-color: var(--input-focus-border);
+    box-shadow: 0 4px 12px var(--shadow-light);
 }
 
 body.rainbow-theme .radio-option:has(input:checked),
 body.rainbow-theme .checkbox-option:has(input:checked) {
-    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3);
-    background-size: 300% 300%;
-    animation: rainbow-text 3s ease-in-out infinite alternate;
-    border-color: rgba(255, 105, 180, 0.5);
-    box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
-    color: #ffffff;
+    background: var(--btn-selected-bg);
+    border-color: var(--btn-selected-border);
+    color: var(--text-rainbow);
 }
 
 body.rainbow-theme .radio-option:has(input:checked):hover,
 body.rainbow-theme .checkbox-option:has(input:checked):hover {
-    border-color: rgba(255, 105, 180, 0.7);
-    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
+    border-color: var(--input-focus-border);
+    box-shadow: 0 4px 12px var(--shadow-light);
 }
 
 /* Rainbow theme deduction group styles */
 body.rainbow-theme .deduction-group {
     background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: var(--input-border-light);
 }
 
 body.rainbow-theme .retirement-type-toggle > label {
@@ -331,6 +372,7 @@ body.rainbow-theme .retirement-type-toggle > label {
 }
 
 /* Rainbow theme IRA, HSA, Retirement, and Other Deductions container styles */
+/* Rainbow theme container styles for special sections */
 body.rainbow-theme .input-group:has(#iraToggle1),
 body.rainbow-theme .input-group:has(#iraToggle2),
 body.rainbow-theme .input-group:has(#hsaToggle1),
@@ -339,8 +381,8 @@ body.rainbow-theme .input-group:has(#retirementToggle1),
 body.rainbow-theme .input-group:has(#retirementToggle2),
 body.rainbow-theme .input-group:has(#otherDeductionsToggle1),
 body.rainbow-theme .input-group:has(#otherDeductionsToggle2) {
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 105, 180, 0.8);
+    background: var(--section-bg-light);
+    border: 1px solid var(--btn-hover-border);
     border-radius: 12px;
     padding: 20px;
     margin: 20px 0;
@@ -355,16 +397,16 @@ body.rainbow-theme .input-group:has(#retirementToggle1) .deduction-group,
 body.rainbow-theme .input-group:has(#retirementToggle2) .deduction-group,
 body.rainbow-theme .input-group:has(#otherDeductionsToggle1) .deduction-group,
 body.rainbow-theme .input-group:has(#otherDeductionsToggle2) .deduction-group {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: var(--btn-bg);
+    border-color: var(--input-border-light);
 }
 
 /* Rainbow theme basic income container styles */
 body.rainbow-theme .person-inputs > .input-group:nth-child(2),
 body.rainbow-theme .person-inputs > .input-row:nth-child(3),
 body.rainbow-theme .person-inputs > .input-group:nth-child(4) {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 105, 180, 0.8);
+    background: var(--section-bg-light);
+    border-color: var(--btn-hover-border);
     border-width: 1px;
     backdrop-filter: blur(8px);
 }
@@ -372,45 +414,27 @@ body.rainbow-theme .person-inputs > .input-group:nth-child(4) {
 /* Rainbow theme tax info and bills container styles */
 body.rainbow-theme .tax-info-container,
 body.rainbow-theme .bills-info-container {
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 105, 180, 0.8);
+    background: var(--section-bg-light);
+    border: 1px solid var(--btn-hover-border);
     border-radius: 12px;
     padding: 20px;
     margin: 20px 0 10px 0;
     backdrop-filter: blur(8px);
 }
 
-/* Rainbow theme creative button styling */
-body.rainbow-theme .radio-option,
-body.rainbow-theme .checkbox-option {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 105, 180, 0.6);
+/* Rainbow theme standardized button styles */
+body.rainbow-theme .btn {
+    background: var(--btn-bg);
+    color: var(--text-rainbow);
+    border-color: var(--btn-border);
     transition: all 0.3s ease;
 }
 
-body.rainbow-theme .radio-option:hover,
-body.rainbow-theme .checkbox-option:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 105, 180, 0.8);
+body.rainbow-theme .btn:hover {
+    background: var(--btn-hover-bg);
+    border-color: var(--btn-hover-border);
     transform: translateY(-2px);
-}
-
-body.rainbow-theme .radio-option:has(input:checked),
-body.rainbow-theme .checkbox-option:has(input:checked) {
-    background: linear-gradient(135deg, 
-        rgba(255, 105, 180, 0.2), 
-        rgba(138, 43, 226, 0.2));
-    border-color: rgba(255, 105, 180, 0.8);
-    color: #2c3e50;
-}
-
-body.rainbow-theme .radio-option:has(input:checked):hover,
-body.rainbow-theme .checkbox-option:has(input:checked):hover {
-    background: linear-gradient(135deg, 
-        rgba(255, 105, 180, 0.3), 
-        rgba(138, 43, 226, 0.3));
-    border-color: rgba(255, 105, 180, 1);
-    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow-rainbow);
 }
 
 /* Rainbow theme input field visibility */
@@ -481,8 +505,8 @@ body.rainbow-theme #budgetResult {
     position: relative !important;
     margin: 25px 0 0 0 !important;
     padding: 20px !important;
-    background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    background: var(--section-bg-rainbow) !important;
+    border: 1px solid var(--input-border-light) !important;
     color: var(--text-rainbow) !important;
     backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: blur(12px) !important;
@@ -493,18 +517,18 @@ body.rainbow-theme #budgetResult {
 body.rainbow-theme .budget-results.expanded,
 body.rainbow-theme #budgetResult.expanded {
     box-shadow: 0 12px 40px var(--shadow-rainbow) !important;
-    border: 2px solid rgba(255, 105, 180, 0.4) !important;
-    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid var(--btn-hover-border) !important;
+    background: var(--section-bg-light) !important;
 }
 
 body.rainbow-theme .budget-results.expanded hr,
 body.rainbow-theme #budgetResult.expanded hr {
-    border-top-color: rgba(255, 105, 180, 0.3) !important;
+    border-top-color: var(--border-rainbow) !important;
 }
 
 body.rainbow-theme .budget-results span,
 body.rainbow-theme #budgetResult span {
-    color: #ff69b4 !important;
+    color: var(--accent-color) !important;
 }
 
 /* Rainbow theme budget results columns */
@@ -513,14 +537,14 @@ body.rainbow-theme .budget-results h3 {
 }
 
 body.rainbow-theme .results-column {
-    background: rgba(255, 255, 255, 0.85) !important;
-    border: 1px solid rgba(255, 105, 180, 0.3) !important;
+    background: var(--section-bg-light) !important;
+    border: 1px solid var(--border-rainbow) !important;
     box-shadow: 0 4px 16px var(--shadow-rainbow) !important;
 }
 
 body.rainbow-theme .results-column h4 {
     color: #8e44ad !important;
-    border-bottom-color: rgba(255, 105, 180, 0.4) !important;
+    border-bottom-color: var(--btn-hover-border) !important;
 }
 
 body.rainbow-theme .results-column p {
@@ -532,12 +556,19 @@ body.rainbow-theme .results-column p strong {
 }
 
 /* Rainbow theme chart support */
-body.rainbow-theme .income-breakdown-chart {
-    border-top-color: rgba(255, 255, 255, 0.3);
+body.rainbow-theme .income-breakdown-chart,
+body.rainbow-theme .chart-container,
+body.rainbow-theme .detail-chart-container {
+    background: var(--section-bg-rainbow) !important;
+    border: 1px solid var(--input-border-light) !important;
+    color: var(--text-rainbow) !important;
+    backdrop-filter: blur(12px) !important;
+    border-radius: 12px !important;
 }
 
-body.rainbow-theme .income-breakdown-chart h4 {
-    color: var(--text-rainbow);
+body.rainbow-theme .chart-title,
+body.rainbow-theme .chart-header h3 {
+    color: var(--text-rainbow) !important;
 }
 
 body.rainbow-theme .chart-bar {
@@ -736,20 +767,44 @@ body.rainbow-theme .save-button.active:hover {
     border-color: rgba(138, 43, 226, 0.8) !important;
 }
 
-/* Rainbow theme legend items - match standard container styling */
+/* Rainbow theme legend items - standardized */
 body.rainbow-theme .legend-item {
-    background: rgba(255, 255, 255, 0.12) !important;
-    border: 1px solid rgba(255, 105, 180, 0.8) !important;
+    background: var(--section-bg-light) !important;
+    border: 1px solid var(--btn-hover-border) !important;
     border-radius: 12px !important;
     padding: 20px !important;
+    color: var(--text-rainbow) !important;
     backdrop-filter: blur(8px) !important;
 }
 
-/* Override for rainbow theme detail chart legend items - make them transparent */
+/* Override for rainbow theme detail chart legend items - simplified */
 body.rainbow-theme #detailChartLegend .legend-item {
     background: transparent !important;
     border: none !important;
     border-radius: 6px !important;
     padding: 8px !important;
+    color: var(--text-rainbow) !important;
     backdrop-filter: none !important;
+}
+
+/* Rainbow theme fun money container styling */
+body.rainbow-theme .fun-money-container {
+    background: var(--section-bg-light);
+    border: 1px solid var(--btn-hover-border);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0 10px 0;
+    backdrop-filter: blur(8px);
+}
+
+body.rainbow-theme .fun-money-container label {
+    color: var(--text-rainbow);
+    font-weight: 600;
+    text-shadow: 0 0 3px var(--shadow-rainbow);
+}
+
+body.rainbow-theme .fun-money-container .input-hint {
+    color: var(--text-muted);
+    font-size: 0.9em;
+    margin-top: 5px;
 }

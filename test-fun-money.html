@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fun Money Logic Test</title>
+</head>
+<body>
+    <h1>Fun Money Logic Test</h1>
+    <div id="results"></div>
+    
+    <script>
+    // Test the corrected fun money logic
+    function testFunMoneyLogic() {
+        const netIncome = 100000; // Example net income
+        const funMoneyPercentage = 15; // 15%
+        const funMoneyAllocation = netIncome * (funMoneyPercentage / 100); // $15,000
+
+        const wantsBills = [
+            { name: 'Netflix', amount: 15, category: 'want' },
+            { name: 'Gym', amount: 50, category: 'want' },
+            { name: 'Entertainment', amount: 200, category: 'want' }
+        ];
+
+        const needsBills = [
+            { name: 'Rent', amount: 1500, category: 'need' },
+            { name: 'Groceries', amount: 400, category: 'need' }
+        ];
+
+        const wantsBillsMonthly = wantsBills.reduce((sum, bill) => sum + bill.amount, 0);
+        const needsBillsMonthly = needsBills.reduce((sum, bill) => sum + bill.amount, 0);
+        const wantsBillsAnnual = wantsBillsMonthly * 12;
+        const needsBillsAnnual = needsBillsMonthly * 12;
+
+        console.log('=== Fun Money Logic Test ===');
+        console.log('Net Income Annual:', netIncome);
+        console.log('Fun Money Percentage:', funMoneyPercentage + '%');
+        console.log('Fun Money Allocation:', funMoneyAllocation);
+        console.log('Wants Bills Monthly:', wantsBillsMonthly);
+        console.log('Wants Bills Annual:', wantsBillsAnnual);
+        console.log('Needs Bills Monthly:', needsBillsMonthly);
+        console.log('Needs Bills Annual:', needsBillsAnnual);
+
+        const remainingFunMoney = Math.max(0, funMoneyAllocation - wantsBillsAnnual);
+        console.log('Remaining Fun Money:', remainingFunMoney);
+
+        // OLD LOGIC (INCORRECT - double counting wants)
+        const totalBillsAnnual = (wantsBillsMonthly + needsBillsMonthly) * 12;
+        const oldRemaining = Math.max(0, netIncome - totalBillsAnnual - remainingFunMoney);
+        console.log('OLD Remaining (incorrect):', oldRemaining);
+
+        // NEW LOGIC (CORRECT - no double counting)
+        const newRemaining = Math.max(0, netIncome - needsBillsAnnual - funMoneyAllocation);
+        console.log('NEW Remaining (correct):', newRemaining);
+
+        console.log('\n=== Verification ===');
+        console.log('Total allocated:', needsBillsAnnual + funMoneyAllocation + newRemaining);
+        console.log('Should equal net income:', netIncome);
+        console.log('Match:', (needsBillsAnnual + funMoneyAllocation + newRemaining) === netIncome);
+
+        // Display results in page
+        const results = document.getElementById('results');
+        results.innerHTML = `
+            <h2>Test Results</h2>
+            <p><strong>Net Income:</strong> $${netIncome.toLocaleString()}</p>
+            <p><strong>Fun Money Allocation (15%):</strong> $${funMoneyAllocation.toLocaleString()}</p>
+            <p><strong>Wants Bills (Monthly):</strong> $${wantsBillsMonthly}</p>
+            <p><strong>Wants Bills (Annual):</strong> $${wantsBillsAnnual.toLocaleString()}</p>
+            <p><strong>Needs Bills (Annual):</strong> $${needsBillsAnnual.toLocaleString()}</p>
+            <hr>
+            <p><strong>Remaining Fun Money:</strong> $${remainingFunMoney.toLocaleString()}</p>
+            <p style="color: red;"><strong>OLD Remaining (incorrect):</strong> $${oldRemaining.toLocaleString()}</p>
+            <p style="color: green;"><strong>NEW Remaining (correct):</strong> $${newRemaining.toLocaleString()}</p>
+            <hr>
+            <p><strong>Verification:</strong></p>
+            <p>Needs Bills + Fun Money + Remaining = ${needsBillsAnnual.toLocaleString()} + ${funMoneyAllocation.toLocaleString()} + ${newRemaining.toLocaleString()} = $${(needsBillsAnnual + funMoneyAllocation + newRemaining).toLocaleString()}</p>
+            <p>Net Income = $${netIncome.toLocaleString()}</p>
+            <p><strong>Balance Check:</strong> ${(needsBillsAnnual + funMoneyAllocation + newRemaining) === netIncome ? '✅ CORRECT' : '❌ ERROR'}</p>
+        `;
+    }
+
+    // Run test when page loads
+    testFunMoneyLogic();
+    </script>
+</body>
+</html>

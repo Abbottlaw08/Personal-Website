@@ -5,8 +5,32 @@ body.dark-theme {
     --nav-bg-dark: rgba(20, 20, 20, 0.7);
     --text-dark: #ffffff;
     --section-bg-dark: rgba(10, 10, 10, 0.95);
+    --section-bg-light: rgba(30, 30, 30, 0.8);
     --border-dark: rgba(40, 40, 40, 0.3);
+    --input-border-light: rgba(255, 255, 255, 0.15);
     --shadow-dark: rgba(0, 0, 0, 0.3);
+    --shadow-light: rgba(0, 0, 0, 0.4);
+    
+    /* Interactive element variables */
+    --input-bg-dark: rgba(255, 255, 255, 0.1);
+    --input-border-dark: rgba(255, 255, 255, 0.2);
+    --input-focus-border: rgba(255, 255, 255, 0.4);
+    --input-focus-shadow: rgba(255, 255, 255, 0.2);
+    
+    /* Button variables */
+    --btn-bg: rgba(255, 255, 255, 0.1);
+    --btn-border: rgba(255, 255, 255, 0.15);
+    --btn-hover-bg: rgba(255, 255, 255, 0.15);
+    --btn-hover-border: rgba(255, 255, 255, 0.25);
+    --btn-selected-bg: rgba(82, 183, 136, 0.2);
+    --btn-selected-border: rgba(82, 183, 136, 0.4);
+    
+    /* Accent colors for interactions */
+    --accent-color: #64b5f6;
+    --accent-bg: rgba(100, 181, 246, 0.1);
+    --accent-shadow: rgba(100, 181, 246, 0.2);
+    
+    /* Game specific variables */
     --chess-white-dark: rgba(30, 30, 30, 0.95);
     --chess-black-dark: rgba(0, 0, 0, 0.95);
     --game-over-bg-dark: rgba(0, 0, 0, 0.85);
@@ -15,10 +39,6 @@ body.dark-theme {
     --game-over-shadow-dark: rgba(0, 0, 0, 0.3);
     --game-over-button-bg-dark: rgba(255, 255, 255, 0.1);
     --game-over-button-border-dark: rgba(255, 255, 255, 0.2);
-    
-    /* Budget Tracker Specific Variables */
-    --input-bg-dark: rgba(255, 255, 255, 0.1);
-    --input-border-dark: rgba(255, 255, 255, 0.2);
     
     /* Chart Colors for Dark Theme */
     --chart-federal-taxes: linear-gradient(135deg, #dc3545, #b02a37);
@@ -70,10 +90,10 @@ body.dark-theme {
 
 /* Theme button styles */
 body.dark-theme #theme-button {
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    background: var(--btn-bg);
+    border: 2px solid var(--btn-border);
+    box-shadow: 0 4px 8px var(--shadow-dark),
+                inset 0 0 0 1px var(--btn-border);
 }
 
 body.dark-theme #theme-button .sun-icon {
@@ -89,11 +109,11 @@ body.dark-theme #theme-button .rainbow-icon {
 }
 
 body.dark-theme #theme-button:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
+    background: var(--btn-hover-bg);
+    border-color: var(--btn-hover-border);
     transform: scale(1.1);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 12px var(--shadow-light),
+                inset 0 0 0 1px var(--btn-hover-border);
 }
 
 /* Icon visibility */
@@ -117,10 +137,10 @@ body.dark-theme nav {
 
 body.dark-theme nav a {
     color: var(--text-dark);
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    background: var(--btn-bg);
+    border: 1px solid var(--btn-border);
+    box-shadow: 0 4px 8px var(--shadow-dark),
+                inset 0 0 0 1px var(--btn-border);
 }
 
 body.dark-theme nav a::after {
@@ -133,13 +153,13 @@ body.dark-theme nav a::after {
 }
 
 body.dark-theme nav a:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    background: var(--btn-hover-bg);
+    border-color: var(--btn-hover-border);
+    box-shadow: 0 6px 12px var(--shadow-light);
 }
 
 body.dark-theme nav a:active {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 4px var(--shadow-dark);
 }
 
 /* Header */
@@ -156,50 +176,19 @@ body.dark-theme section {
 
 /* Resume */
 body.dark-theme .resume-container {
-    background: rgba(20, 20, 20, 0.8);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: var(--section-bg-light);
+    border-color: var(--input-border-light);
 }
 
 body.dark-theme .resume-section h3 {
-    border-color: #eee;
+    border-color: var(--input-border-light);
 }
 
 body.dark-theme .resume-item .sub-heading {
     color: #ccc;
 }
 
-/* Chess squares */
-body.dark-theme .chess-square.white {
-    background: var(--chess-white-dark);
-}
-
-body.dark-theme .chess-square.black {
-    background: var(--chess-black-dark);
-}
-
-/* Game over overlay */
-body.dark-theme .game-over-overlay {
-    background: var(--game-over-bg-dark);
-    color: var(--game-over-text-dark);
-    border: 1px solid var(--game-over-border-dark);
-    box-shadow: 0 4px 20px var(--game-over-shadow-dark);
-}
-
-body.dark-theme .game-over-overlay button {
-    background: var(--game-over-button-bg-dark);
-    border: 1px solid var(--game-over-button-border-dark);
-}
-
-/* Dark theme budget tracker */
-body.dark-theme #budgetTrackerContainer {
-    background: transparent;
-    color: var(--text-dark);
-}
-
-body.dark-theme .budget-tracker-header h2 {
-    color: var(--text-dark);
-}
-
+/* Budget tracker form styling */
 body.dark-theme .budget-form {
     background: rgba(10, 10, 10, 0.3);
     border-radius: 10px;
@@ -217,30 +206,30 @@ body.dark-theme .input-group select {
 
 body.dark-theme .input-group input:focus,
 body.dark-theme .input-group select:focus {
-    border-color: rgba(255, 255, 255, 0.4);
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 8px var(--input-focus-shadow);
 }
 
 /* Dark theme radio and checkbox options */
 body.dark-theme .radio-option,
 body.dark-theme .checkbox-option {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: var(--btn-bg);
+    border: 1px solid var(--btn-border);
     color: var(--text-dark);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 8px var(--shadow-dark),
+                inset 0 0 0 1px var(--btn-border);
 }
 
 body.dark-theme .radio-option:hover,
 body.dark-theme .checkbox-option:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.25);
+    background: var(--btn-hover-bg);
+    border-color: var(--btn-hover-border);
 }
 
 body.dark-theme .radio-option:has(input:checked),
 body.dark-theme .checkbox-option:has(input:checked) {
-    background: rgba(82, 183, 136, 0.2);
-    border-color: rgba(82, 183, 136, 0.4);
+    background: var(--btn-selected-bg);
+    border-color: var(--btn-selected-border);
     color: var(--text-dark);
 }
 
@@ -253,14 +242,14 @@ body.dark-theme .checkbox-option:has(input:checked):hover {
 /* Dark theme deduction group styles */
 body.dark-theme .deduction-group {
     background: rgba(255, 255, 255, 0.03);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--input-border-light);
 }
 
 body.dark-theme .retirement-type-toggle > label {
     color: var(--text-dark);
 }
 
-/* Dark theme IRA, HSA, Retirement, and Other Deductions container styles */
+/* Dark theme container styles for special sections */
 body.dark-theme .input-group:has(#iraToggle1),
 body.dark-theme .input-group:has(#iraToggle2),
 body.dark-theme .input-group:has(#hsaToggle1),
@@ -269,14 +258,15 @@ body.dark-theme .input-group:has(#retirementToggle1),
 body.dark-theme .input-group:has(#retirementToggle2),
 body.dark-theme .input-group:has(#otherDeductionsToggle1),
 body.dark-theme .input-group:has(#otherDeductionsToggle2) {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--section-bg-light);
+    border: 1px solid var(--input-border-light);
     border-radius: 12px;
     padding: 20px;
     margin: 20px 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 8px var(--shadow-light);
 }
 
+/* Dark theme nested deduction groups */
 body.dark-theme .input-group:has(#iraToggle1) .deduction-group,
 body.dark-theme .input-group:has(#iraToggle2) .deduction-group,
 body.dark-theme .input-group:has(#hsaToggle1) .deduction-group,
@@ -286,127 +276,209 @@ body.dark-theme .input-group:has(#retirementToggle2) .deduction-group,
 body.dark-theme .input-group:has(#otherDeductionsToggle1) .deduction-group,
 body.dark-theme .input-group:has(#otherDeductionsToggle2) .deduction-group {
     background: rgba(255, 255, 255, 0.02);
-    border-color: rgba(255, 255, 255, 0.06);
+    border-color: var(--input-border-light);
 }
 
 /* Dark theme basic income container styles */
 body.dark-theme .person-inputs > .input-group:nth-child(2),
 body.dark-theme .person-inputs > .input-row:nth-child(3),
 body.dark-theme .person-inputs > .input-group:nth-child(4) {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.12);
+    background: var(--section-bg-light);
+    border-color: var(--input-border-light);
 }
 
 /* Dark theme tax info and bills container styles */
 body.dark-theme .tax-info-container,
 body.dark-theme .bills-info-container {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--section-bg-light);
+    border: 1px solid var(--input-border-light);
     border-radius: 12px;
     padding: 20px;
     margin: 20px 0 10px 0;
 }
 
-/* Dark theme button styling */
-body.dark-theme .deduction-input-row .btn-primary {
+/* Dark theme fun money container styles */
+body.dark-theme .fun-money-container {
+    background: rgba(100, 181, 246, 0.1);
+    border: 1px solid var(--accent-color);
+    color: var(--text-dark);
+}
+
+body.dark-theme .fun-money-container label {
+    color: var(--text-dark) !important;
+    font-weight: 600;
+}
+
+body.dark-theme .fun-money-container .input-hint {
+    color: #cccccc !important;
+}
+
+/* Dark theme legend items - standardized */
+body.dark-theme .legend-item {
+    background: var(--section-bg-light) !important;
+    border: 1px solid var(--input-border-light) !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    color: var(--text-dark) !important;
+}
+
+/* Override for detail chart legend items - simplified */
+body.dark-theme #detailChartLegend .legend-item {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 8px !important;
+    color: var(--text-dark) !important;
+}
+
+/* Dark theme game styles */
+body.dark-theme .chess-square.white {
+    background: var(--chess-white-dark);
+}
+
+body.dark-theme .chess-square.black {
+    background: var(--chess-black-dark);
+}
+
+body.dark-theme .game-over-overlay {
+    background: var(--game-over-bg-dark);
+    color: var(--game-over-text-dark);
+    border: 1px solid var(--game-over-border-dark);
+    box-shadow: 0 4px 20px var(--game-over-shadow-dark);
+}
+
+body.dark-theme .game-over-overlay button {
+    background: var(--game-over-button-bg-dark);
+    border: 1px solid var(--game-over-button-border-dark);
+}
+
+/* Dark theme budget tracker containers */
+body.dark-theme #budgetTrackerContainer {
+    background: transparent;
+    color: var(--text-dark);
+}
+
+body.dark-theme .budget-tracker-header h2 {
+    color: var(--text-dark);
+}
+
+/* Dark theme button styles - standardized */
+body.dark-theme .btn {
+    background: var(--btn-bg);
+    color: var(--text-dark);
+    border-color: var(--btn-border);
+}
+
+body.dark-theme .btn:hover {
+    background: var(--btn-hover-bg);
+    border-color: var(--btn-hover-border);
+    box-shadow: 0 2px 4px var(--shadow-dark);
+}
+
+/* Dark theme standardized button variants */
+body.dark-theme .btn-primary {
     background: rgba(100, 149, 237, 0.8) !important;
     border-color: rgba(100, 149, 237, 0.6) !important;
     color: white !important;
 }
 
-body.dark-theme .deduction-input-row .btn-primary:hover {
+body.dark-theme .btn-primary:hover {
     background: rgba(100, 149, 237, 0.9) !important;
     border-color: rgba(100, 149, 237, 0.8) !important;
 }
 
-body.dark-theme .preset-deductions .btn-success,
-body.dark-theme .preset-bills .btn-success,
-body.dark-theme .bills-container .btn,
-body.dark-theme .bills-container button {
+body.dark-theme .btn-success {
     background: rgba(72, 187, 120, 0.8) !important;
     border-color: rgba(72, 187, 120, 0.6) !important;
     color: white !important;
 }
 
-body.dark-theme .preset-deductions .btn-success:hover,
-body.dark-theme .preset-bills .btn-success:hover,
-body.dark-theme .bills-container .btn:hover,
-body.dark-theme .bills-container button:hover {
+body.dark-theme .btn-success:hover {
     background: rgba(72, 187, 120, 0.9) !important;
     border-color: rgba(72, 187, 120, 0.8) !important;
 }
 
-/* Dark theme budget tracker results */
+body.dark-theme .btn-secondary {
+    background: rgba(108, 117, 125, 0.8) !important;
+    border-color: rgba(108, 117, 125, 0.6) !important;
+    color: white !important;
+}
+
+body.dark-theme .btn-secondary:hover {
+    background: rgba(108, 117, 125, 1) !important;
+    border-color: rgba(108, 117, 125, 0.8) !important;
+}
+
+/* Dark theme results and chart containers */
 body.dark-theme .budget-results,
-body.dark-theme #budgetResult {
-    background: rgba(10, 10, 10, 0.95) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: #ffffff !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+body.dark-theme #budgetResult,
+body.dark-theme .income-breakdown-chart,
+body.dark-theme .chart-container,
+body.dark-theme .detail-chart-container {
+    background: var(--section-bg-dark) !important;
+    border: 1px solid var(--input-border-light) !important;
+    color: var(--text-dark) !important;
+    box-shadow: 0 8px 32px var(--shadow-dark) !important;
 }
 
 body.dark-theme .budget-results.expanded,
 body.dark-theme #budgetResult.expanded {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
-    border: 2px solid rgba(255, 255, 255, 0.2) !important;
-}
-
-body.dark-theme .budget-results.expanded hr,
-body.dark-theme #budgetResult.expanded hr {
-    border-top-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-body.dark-theme .budget-results span,
-body.dark-theme #budgetResult span {
-    color: #64b5f6 !important;
-}
-
-/* Dark theme budget results columns */
-body.dark-theme .budget-results h3 {
-    color: #ffffff !important;
+    box-shadow: 0 12px 40px var(--shadow-light) !important;
+    border: 2px solid var(--input-border-dark) !important;
 }
 
 body.dark-theme .results-column {
-    background: rgba(15, 15, 15, 0.95) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+    background: var(--section-bg-light) !important;
+    border: 1px solid var(--input-border-light) !important;
+    box-shadow: 0 4px 16px var(--shadow-light) !important;
+    color: var(--text-dark) !important;
 }
 
-body.dark-theme .results-column h4 {
-    color: #e3f2fd !important;
-    border-bottom-color: rgba(255, 255, 255, 0.2) !important;
+/* Dark theme text colors */
+body.dark-theme .budget-results h3,
+body.dark-theme .results-column h4,
+body.dark-theme .chart-title,
+body.dark-theme .chart-header h3,
+body.dark-theme .detail-chart-header h3 {
+    color: var(--text-dark) !important;
 }
 
-body.dark-theme .results-column p {
+body.dark-theme .results-column p,
+body.dark-theme .legend-text {
     color: #cccccc !important;
 }
 
 body.dark-theme .results-column p strong {
-    color: #ffffff !important;
+    color: var(--text-dark) !important;
 }
 
-/* Dark theme chart support */
-body.dark-theme .income-breakdown-chart {
-    border-top-color: rgba(255, 255, 255, 0.1);
+/* Dark theme chart elements */
+body.dark-theme .chart-segment,
+body.dark-theme .chart-segment-label {
+    color: var(--text-dark) !important;
 }
 
-body.dark-theme .income-breakdown-chart h4 {
-    color: var(--text-dark);
+body.dark-theme .chart-segment-label {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-body.dark-theme .chart-bar {
-    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+/* Dark theme chart controls */
+body.dark-theme .chart-controls {
+    background: var(--section-bg-light) !important;
+    color: var(--text-dark) !important;
 }
 
-/* Dark theme button styles */
-body.dark-theme .btn {
-    background: var(--input-bg-dark);
-    color: var(--text-dark);
-    border-color: var(--input-border-dark);
+body.dark-theme .chart-controls select,
+body.dark-theme .period-selector {
+    background: var(--input-bg-dark) !important;
+    color: var(--text-dark) !important;
+    border: 1px solid var(--input-border-dark) !important;
 }
 
-body.dark-theme .btn:hover {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+body.dark-theme .chart-controls select:focus,
+body.dark-theme .period-selector:focus {
+    background: rgba(50, 50, 50, 0.9) !important;
+    border-color: var(--input-focus-border) !important;
 }
 
 /* Dark theme footer */

@@ -18,7 +18,15 @@
     
     /* Budget Tracker Specific Variables */
     --input-bg-light: rgba(255, 255, 255, 0.9);
-    --input-border-light: rgba(0, 0, 0, 0.1);
+    --input-border-light: rgba(0, 0, 0, 0.15);
+    
+    /* Accent colors for consistency */
+    --accent-color: #3498db;
+    --accent-color-hover: #2980b9;
+    --accent-bg: rgba(52, 152, 219, 0.15);
+    --accent-bg-hover: rgba(52, 152, 219, 0.25);
+    --accent-shadow: rgba(52, 152, 219, 0.2);
+    --placeholder-color: rgba(44, 62, 80, 0.5);
     
     /* Chart Colors for Light Theme (default) */
     --chart-federal-taxes: linear-gradient(135deg, #e74c3c, #c0392b);

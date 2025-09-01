@@ -341,7 +341,9 @@
 
                 <div class="people-container">
                     <div class="person-inputs" id="person1Inputs">
-                        <h4>Person 1</h4>
+                        <div class="name-input-header">
+                            <input type="text" id="person1Name" placeholder="Person 1" maxlength="20" class="name-input">
+                        </div>
                         <div class="input-group">
                             <div class="input-header">
                                 <label for="salary1">Annual Income:</label>
@@ -481,7 +483,9 @@
                     </div>
 
                     <div class="person-inputs" id="person2Inputs" style="display:none;">
-                        <h4>Person 2</h4>
+                        <div class="name-input-header">
+                            <input type="text" id="person2Name" placeholder="Person 2" maxlength="20" class="name-input">
+                        </div>
                         <div class="input-group">
                             <div class="input-header">
                                 <label for="salary2">Annual Income:</label>
@@ -653,6 +657,16 @@
 
                 <div class="bills-info-container">
                     <h4>Monthly Bills</h4>
+                    
+                    <!-- Fun Money Allocation -->
+                    <div class="fun-money-container">
+                        <div class="input-group">
+                            <label for="funMoneyPercentage">Fun Money Allocation (% of after-tax income):</label>
+                            <input type="number" id="funMoneyPercentage" placeholder="e.g., 15" step="0.5" min="0" max="50" onchange="calculateBudget()">
+                            <span class="input-hint">Percentage of take-home pay for discretionary spending + bills labeled as "wants"</span>
+                        </div>
+                    </div>
+                    
                     <div class="bill-input-row">
                         <div class="input-group">
                             <input type="text" id="billName" placeholder="Bill name (e.g., Rent)" onkeypress="handleBillKeypress(event)">
@@ -762,10 +776,18 @@
                                     <div class="chart-segment pretax-deductions" id="chartPreTaxDeductions"></div>
                                     <div class="chart-segment posttax-deductions" id="chartPostTaxDeductions"></div>
                                     <div class="chart-segment bills" id="chartBills"></div>
+                                    <div class="chart-segment fun-money" id="chartFunMoney"></div>
                                     <div class="chart-segment take-home" id="chartTakeHome"></div>
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- Overallocation Warning -->
+                        <div id="overallocationWarning" class="overallocation-warning" style="display: none;">
+                            <strong>⚠️ Budget Overallocated!</strong><br>
+                            You are spending more than you earn.
+                        </div>
+                        
                         <div class="chart-legend">
                             <div class="legend-item">
                                 <span class="legend-color federal-taxes"></span>
@@ -789,7 +811,11 @@
                             </div>
                             <div class="legend-item">
                                 <span class="legend-color bills"></span>
-                                <span class="legend-text">Monthly Bills: $<span id="legendBills">0.00</span></span>
+                                <span class="legend-text">Bills: $<span id="legendBills">0.00</span></span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color fun-money"></span>
+                                <span class="legend-text">Fun Money: $<span id="legendFunMoney">0.00</span></span>
                             </div>
                             <div class="legend-item">
                                 <span class="legend-color take-home"></span>
@@ -802,15 +828,6 @@
                             <div class="detail-chart-header">
                                 <h3 id="detailChartTitle">Section Breakdown</h3>
                                 <div class="detail-chart-controls">
-                                    <div class="chart-period-toggle">
-                                        <label for="detailChartPeriod">View:</label>
-                                        <select id="detailChartPeriod" class="period-selector">
-                                            <option value="monthly">Monthly</option>
-                                            <option value="weekly">Weekly</option>
-                                            <option value="bi-weekly">Bi-weekly</option>
-                                            <option value="annually">Annually</option>
-                                        </select>
-                                    </div>
                                     <button onclick="hideDetailChart()" class="btn btn-secondary">Hide</button>
                                 </div>
                             </div>
@@ -825,6 +842,133 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Forecast Section -->
+                <div id="forecastResult" class="forecast-results" style="display: none;">
+                    <h3>Financial Forecast</h3>
+                    
+                    <!-- Forecast Input Controls -->
+                    <div class="forecast-controls">
+                        <div class="forecast-input-group">
+                            <label for="annualReturn">Annual Rate of Return (%):</label>
+                            <input type="number" id="annualReturn" value="7" step="0.1" min="0" max="20" placeholder="e.g., 7">
+                            <span class="input-hint">Expected annual investment return</span>
+                        </div>
+                        <div class="forecast-input-group">
+                            <label for="inflationRate">Annual Inflation Rate (%):</label>
+                            <input type="number" id="inflationRate" value="3" step="0.1" min="0" max="10" placeholder="e.g., 3">
+                            <span class="input-hint">Expected annual inflation rate</span>
+                        </div>
+                        <div class="forecast-input-group">
+                            <label for="annualWageIncrease">Expected Annual Wage Increase (%):</label>
+                            <input type="number" id="annualWageIncrease" value="3" step="0.1" min="0" max="15" placeholder="e.g., 3">
+                            <span class="input-hint">Expected annual salary/wage growth rate</span>
+                        </div>
+                        
+                        <div class="forecast-input-group">
+                            <label for="forecastYears">Forecast Length (Years):</label>
+                            <input type="number" id="forecastYears" value="10" step="1" min="1" max="50" placeholder="e.g., 10">
+                            <span class="input-hint">Number of years to project into the future</span>
+                        </div>
+                    </div>
+
+                    <!-- Current Account Balances -->
+                    <div class="forecast-controls">
+                        <!-- Person 1 Balances -->
+                        <div class="person-balance-section">
+                            <h5 id="person1BalanceTitle">Person 1 Current Balances</h5>
+                            <div class="balance-grid">
+                                <div class="forecast-input-group">
+                                    <label for="person1HSA">HSA Balance:</label>
+                                    <input type="number" id="person1HSA" value="0" step="100" min="0" placeholder="e.g., 5000">
+                                    <span class="input-hint">Current Health Savings Account balance</span>
+                                </div>
+                                <div class="forecast-input-group">
+                                    <label for="person1Retirement">Retirement Balance:</label>
+                                    <input type="number" id="person1Retirement" value="0" step="100" min="0" placeholder="e.g., 25000">
+                                    <span class="input-hint">Current 401k/IRA balance</span>
+                                </div>
+                                <div class="forecast-input-group">
+                                    <label for="person1Savings">Savings Balance:</label>
+                                    <input type="number" id="person1Savings" value="0" step="100" min="0" placeholder="e.g., 10000">
+                                    <span class="input-hint">Current savings account balance</span>
+                                </div>
+                                <div class="forecast-input-group">
+                                    <label for="person1Brokerage">Brokerage Balance:</label>
+                                    <input type="number" id="person1Brokerage" value="0" step="100" min="0" placeholder="e.g., 15000">
+                                    <span class="input-hint">Current investment/brokerage account balance</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Person 2 Balances -->
+                        <div class="person-balance-section" id="person2Balances" style="display:none;">
+                            <h5 id="person2BalanceTitle">Person 2 Current Balances</h5>
+                            <div class="balance-grid">
+                                <div class="forecast-input-group">
+                                    <label for="person2HSA">HSA Balance:</label>
+                                    <input type="number" id="person2HSA" value="0" step="100" min="0" placeholder="e.g., 3000">
+                                    <span class="input-hint">Current Health Savings Account balance</span>
+                                </div>
+                                <div class="forecast-input-group">
+                                    <label for="person2Retirement">Retirement Balance:</label>
+                                    <input type="number" id="person2Retirement" value="0" step="100" min="0" placeholder="e.g., 18000">
+                                    <span class="input-hint">Current 401k/IRA balance</span>
+                                </div>
+                                <div class="forecast-input-group">
+                                    <label for="person2Savings">Savings Balance:</label>
+                                    <input type="number" id="person2Savings" value="0" step="100" min="0" placeholder="e.g., 8000">
+                                    <span class="input-hint">Current savings account balance</span>
+                                </div>
+                                <div class="forecast-input-group">
+                                    <label for="person2Brokerage">Brokerage Balance:</label>
+                                    <input type="number" id="person2Brokerage" value="0" step="100" min="0" placeholder="e.g., 12000">
+                                    <span class="input-hint">Current investment/brokerage account balance</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Forecast Chart -->
+                    <div class="forecast-chart-container">
+                        <div class="forecast-chart-header">
+                            <h4>Projected Growth Over 10 Years</h4>
+                            <div class="forecast-view-toggle">
+                                <label for="forecastView">View:</label>
+                                <select id="forecastView" class="period-selector" onchange="updateForecastChartView()">
+                                    <option value="nominal">Nominal Values</option>
+                                    <option value="real">Real Values (Inflation-Adjusted)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="forecast-chart-wrapper">
+                            <canvas id="forecastChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Forecast Summary Table -->
+                    <div class="forecast-summary">
+                        <h4>Projection Summary</h4>
+                        <div class="forecast-table-container">
+                            <table class="forecast-table">
+                                <thead>
+                                    <tr>
+                                        <th>Account Type</th>
+                                        <th>Current Balance</th>
+                                        <th>Annual Contribution</th>
+                                        <th>Final Total (Nominal)</th>
+                                        <th>Final Total (Real)</th>
+                                        <th>Total Contributions</th>
+                                        <th>Investment Growth</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="forecastTableBody">
+                                    <!-- Table rows will be generated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -833,6 +977,7 @@
         <h1>Social Posts</h1>
     </section>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
     <script src="snakeGame.js"></script>
     <script src="chessGame.js"></script>

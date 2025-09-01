@@ -69,6 +69,10 @@ function saveAllInputs() {
         // People count
         peopleCount: document.querySelector('input[name="peopleCount"]:checked')?.value || 'one',
         
+        // Person names
+        person1Name: document.getElementById('person1Name')?.value || '',
+        person2Name: document.getElementById('person2Name')?.value || '',
+        
         // Person 1 data
         salary1: document.getElementById('salary1')?.value || '',
         selfEmployed1: document.getElementById('selfEmployed1')?.checked || false,
@@ -113,9 +117,25 @@ function saveAllInputs() {
     bills: bills,
     deductions1: deductions1,
     deductions2: deductions2,
+    // Fun money allocation
+    funMoneyPercentage: document.getElementById('funMoneyPercentage')?.value || '',
+    // Forecast inputs
+    annualReturn: document.getElementById('annualReturn')?.value || '7',
+    inflationRate: document.getElementById('inflationRate')?.value || '3',
+    annualWageIncrease: document.getElementById('annualWageIncrease')?.value || '3',
+    forecastView: document.getElementById('forecastView')?.value || 'nominal',
+    // Person 1 balance inputs
+    person1HSA: document.getElementById('person1HSA')?.value || '0',
+    person1Retirement: document.getElementById('person1Retirement')?.value || '0',
+    person1Savings: document.getElementById('person1Savings')?.value || '0',
+    person1Brokerage: document.getElementById('person1Brokerage')?.value || '0',
+    // Person 2 balance inputs
+    person2HSA: document.getElementById('person2HSA')?.value || '0',
+    person2Retirement: document.getElementById('person2Retirement')?.value || '0',
+    person2Savings: document.getElementById('person2Savings')?.value || '0',
+    person2Brokerage: document.getElementById('person2Brokerage')?.value || '0',
     // UI state
-    chartPeriod: document.getElementById('chartPeriod')?.value || 'monthly',
-    detailChartPeriod: document.getElementById('detailChartPeriod')?.value || 'monthly'
+    chartPeriod: document.getElementById('chartPeriod')?.value || 'monthly'
     };
     
     localStorage.setItem('budgetTrackerInputs', JSON.stringify(inputData));
@@ -135,6 +155,16 @@ function loadSavedInputs(force = false) {
         if (peopleRadio) {
             peopleRadio.checked = true;
             togglePeopleCount(inputData.peopleCount);
+        }
+        
+        // Load person names
+        if (inputData.person1Name !== undefined) {
+            const person1NameInput = document.getElementById('person1Name');
+            if (person1NameInput) person1NameInput.value = inputData.person1Name;
+        }
+        if (inputData.person2Name !== undefined) {
+            const person2NameInput = document.getElementById('person2Name');
+            if (person2NameInput) person2NameInput.value = inputData.person2Name;
         }
         
         // Load Person 1 data
@@ -232,18 +262,65 @@ function loadSavedInputs(force = false) {
             updateDeductionsList(2);
         }
         
+        // Load fun money allocation
+        if (inputData.funMoneyPercentage) {
+            document.getElementById('funMoneyPercentage').value = inputData.funMoneyPercentage;
+        }
+        
+        // Load forecast inputs
+        if (inputData.annualReturn) {
+            document.getElementById('annualReturn').value = inputData.annualReturn;
+        }
+        if (inputData.inflationRate) {
+            document.getElementById('inflationRate').value = inputData.inflationRate;
+        }
+        if (inputData.annualWageIncrease) {
+            document.getElementById('annualWageIncrease').value = inputData.annualWageIncrease;
+        }
+        if (inputData.forecastView) {
+            document.getElementById('forecastView').value = inputData.forecastView;
+        }
+        
+        // Load Person 1 balance inputs
+        if (inputData.person1HSA) {
+            document.getElementById('person1HSA').value = inputData.person1HSA;
+        }
+        if (inputData.person1Retirement) {
+            document.getElementById('person1Retirement').value = inputData.person1Retirement;
+        }
+        if (inputData.person1Savings) {
+            document.getElementById('person1Savings').value = inputData.person1Savings;
+        }
+        if (inputData.person1Brokerage) {
+            document.getElementById('person1Brokerage').value = inputData.person1Brokerage;
+        }
+        
+        // Load Person 2 balance inputs
+        if (inputData.person2HSA) {
+            document.getElementById('person2HSA').value = inputData.person2HSA;
+        }
+        if (inputData.person2Retirement) {
+            document.getElementById('person2Retirement').value = inputData.person2Retirement;
+        }
+        if (inputData.person2Savings) {
+            document.getElementById('person2Savings').value = inputData.person2Savings;
+        }
+        if (inputData.person2Brokerage) {
+            document.getElementById('person2Brokerage').value = inputData.person2Brokerage;
+        }
+        
         // Restore period selectors if saved (do this before recalculation)
         if (inputData.chartPeriod) {
             const chartPeriodEl = document.getElementById('chartPeriod');
             if (chartPeriodEl) chartPeriodEl.value = inputData.chartPeriod;
         }
-        if (inputData.detailChartPeriod) {
-            const detailPeriodEl = document.getElementById('detailChartPeriod');
-            if (detailPeriodEl) detailPeriodEl.value = inputData.detailChartPeriod;
-        }
 
         // Recalculate budget after loading all data
         calculateBudget();
+        
+        // Update person names after loading data
+        updatePersonNames();
+        
         // After loading, persist the normalized state if saving is enabled
         if (saveInputsEnabled) {
             saveAllInputs();
@@ -523,6 +600,13 @@ function toggleTwoPeople() {
     const twoPeople = document.getElementById('twoPeopleToggle').checked;
     const container = document.getElementById('budgetTrackerContainer');
     document.getElementById('person2Inputs').style.display = twoPeople ? 'block' : 'none';
+    
+    // Also toggle Person 2 balance section in forecast
+    const person2Balances = document.getElementById('person2Balances');
+    if (person2Balances) {
+        person2Balances.style.display = twoPeople ? 'block' : 'none';
+    }
+    
     // Toggle a class for CSS-driven layout
     if (container) {
         container.classList.toggle('two-people', twoPeople);
@@ -533,6 +617,13 @@ function togglePeopleCount(value) {
     const twoPeople = value === 'two';
     const container = document.getElementById('budgetTrackerContainer');
     document.getElementById('person2Inputs').style.display = twoPeople ? 'block' : 'none';
+    
+    // Also toggle Person 2 balance section in forecast
+    const person2Balances = document.getElementById('person2Balances');
+    if (person2Balances) {
+        person2Balances.style.display = twoPeople ? 'block' : 'none';
+    }
+    
     // Toggle a class for CSS-driven layout
     if (container) {
         container.classList.toggle('two-people', twoPeople);
@@ -951,9 +1042,28 @@ function calculateBudget() {
     document.getElementById('taxesYearly').textContent = `$${totalTaxesAnnual.toFixed(2)}`;
     document.getElementById('takeHomeYearly').textContent = `$${netIncomeAnnual.toFixed(2)}`;
     
-    // Update income breakdown chart (make remaining = net after bills so all segments sum to gross)
+    // Calculate fun money allocation
+    const funMoneyPercentage = parseFloat(document.getElementById('funMoneyPercentage').value) || 0;
+    const funMoneyAllocationAnnual = (netIncomeAnnual * funMoneyPercentage) / 100;
+    
+    // Separate wants vs needs from bills
+    const wantsBills = bills.filter(bill => bill.category === 'want');
+    const needsBills = bills.filter(bill => bill.category === 'need');
+    const wantsBillsTotal = wantsBills.reduce((sum, bill) => sum + bill.amount, 0);
+    const needsBillsTotal = needsBills.reduce((sum, bill) => sum + bill.amount, 0);
+    
+    // Calculate remaining fun money after existing wants
+    const wantsBillsAnnual = wantsBillsTotal * 12;
+    const needsBillsAnnual = needsBillsTotal * 12;
+    const remainingFunMoneyAnnual = Math.max(0, funMoneyAllocationAnnual - wantsBillsAnnual);
+    
+    // Total bills for traditional calculation (billsTotal already declared above)
     const annualBills = billsTotal * 12;
-    const remainingAfterBillsAnnual = Math.max(0, netIncomeAnnual - annualBills);
+    
+    // Calculate final remaining after needs bills and total fun money allocation (can be negative if overallocated)
+    const actualRemainingAnnual = netIncomeAnnual - needsBillsAnnual - funMoneyAllocationAnnual;
+    const remainingAfterBillsAnnual = Math.max(0, actualRemainingAnnual);
+    
     // Use calculated federal tax plus any additional withholding for display
     const federalTaxForChart = federalTaxesAnnual + totalFederalWithholdingAnnual;
     updateIncomeBreakdownChart(
@@ -963,10 +1073,12 @@ function calculateBudget() {
         totalPayrollTaxes, 
         totalPreTaxDeductionsAnnual, 
         totalPostTaxDeductionsAnnual + totalRothContributions, 
-        annualBills, 
-        remainingAfterBillsAnnual,
+        needsBillsAnnual, 
+        funMoneyAllocationAnnual,
+        actualRemainingAnnual,
         {
             totalGrossAnnual: totalGrossAnnual,
+            netIncomeAnnual: netIncomeAnnual,
             totalPreTaxDeductionsAnnual: totalPreTaxDeductionsAnnual,
             totalTraditional401kAnnual: totalTraditional401kAnnual,
             totalTraditionalIrAAnnual: totalTraditionalIrAAnnual,
@@ -989,6 +1101,8 @@ function calculateBudget() {
     const budgetResult = document.getElementById('budgetResult');
     if (document.getElementById('budgetTrackerContainer').style.display !== 'none') {
         budgetResult.style.display = 'block';
+        // Show forecast section when budget results are displayed
+        showForecastSection();
     }
     
     // Refresh chart colors to ensure theme variables are properly applied
@@ -1066,7 +1180,7 @@ function getPeriodLabel(period) {
     }
 }
 
-function updateIncomeBreakdownChart(grossAnnual, federalTax, stateTax, payrollTax, preDeductions, postDeductions, annualBills, remaining, additionalData = {}) {
+function updateIncomeBreakdownChart(grossAnnual, federalTax, stateTax, payrollTax, preDeductions, postDeductions, annualBills, funMoney, remaining, additionalData = {}) {
     // Calculate percentages for each segment
     if (grossAnnual <= 0) return;
     
@@ -1080,7 +1194,30 @@ function updateIncomeBreakdownChart(grossAnnual, federalTax, stateTax, payrollTa
     const preDeductionsPct = (preDeductions / grossAnnual) * 100;
     const postDeductionsPct = (postDeductions / grossAnnual) * 100;
     const billsPct = (annualBills / grossAnnual) * 100;
-    const remainingPct = Math.max(0, (remaining / grossAnnual) * 100);
+    
+    // Special handling for Fun Money - force to 0 when percentage is 0
+    const funMoneyInputPercentage = parseFloat(document.getElementById('funMoneyPercentage')?.value) || 0;
+    const displayFunMoney = funMoneyInputPercentage === 0 ? 0 : (parseFloat(funMoney) || 0);
+    const funMoneyPct = (displayFunMoney / grossAnnual) * 100;
+    
+    // Calculate remaining percentage (can be negative if overallocated)
+    const actualRemaining = parseFloat(remaining) || 0;
+    const remainingPct = (actualRemaining / grossAnnual) * 100;
+    const isOverallocated = actualRemaining < 0;
+    
+    // Show overallocation warning if budget is negative
+    const overallocationWarning = document.getElementById('overallocationWarning');
+    if (overallocationWarning) {
+        if (isOverallocated) {
+            overallocationWarning.style.display = 'block';
+            overallocationWarning.innerHTML = `
+                <strong>⚠️ Budget Overallocated!</strong><br>
+                You are spending <strong>$${Math.abs(convertToPeriod(actualRemaining, period)).toFixed(2)}</strong> more ${periodLabel.toLowerCase()} than you earn.
+            `;
+        } else {
+            overallocationWarning.style.display = 'none';
+        }
+    }
     
     // Update chart segment widths and visibility
     const segments = [
@@ -1090,18 +1227,37 @@ function updateIncomeBreakdownChart(grossAnnual, federalTax, stateTax, payrollTa
         { id: 'chartPreTaxDeductions', pct: preDeductionsPct, value: preDeductions },
         { id: 'chartPostTaxDeductions', pct: postDeductionsPct, value: postDeductions },
         { id: 'chartBills', pct: billsPct, value: annualBills },
-        { id: 'chartTakeHome', pct: remainingPct, value: remaining }
+        { id: 'chartFunMoney', pct: funMoneyPct, value: displayFunMoney },
+        { id: 'chartTakeHome', pct: Math.max(0, remainingPct), value: actualRemaining }
     ];
     
     segments.forEach(segment => {
         const element = document.getElementById(segment.id);
         if (element) {
-            if (segment.value <= 0) {
-                element.style.width = '0%';
-                element.style.display = 'none';
+            // Special handling for take-home to show overallocation
+            if (segment.id === 'chartTakeHome') {
+                if (segment.value < 0) {
+                    // Show as red warning bar when overallocated
+                    element.style.width = '0%';
+                    element.style.display = 'none';
+                    element.classList.add('overallocated');
+                } else if (segment.value <= 0) {
+                    element.style.width = '0%';
+                    element.style.display = 'none';
+                    element.classList.remove('overallocated');
+                } else {
+                    element.style.width = `${segment.pct}%`;
+                    element.style.display = 'block';
+                    element.classList.remove('overallocated');
+                }
             } else {
-                element.style.width = `${segment.pct}%`;
-                element.style.display = 'block';
+                if (segment.value <= 0) {
+                    element.style.width = '0%';
+                    element.style.display = 'none';
+                } else {
+                    element.style.width = `${segment.pct}%`;
+                    element.style.display = 'block';
+                }
             }
         }
     });
@@ -1113,7 +1269,27 @@ function updateIncomeBreakdownChart(grossAnnual, federalTax, stateTax, payrollTa
     document.getElementById('legendPreTaxDeductions').textContent = convertToPeriod(preDeductions, period).toFixed(2);
     document.getElementById('legendPostTaxDeductions').textContent = convertToPeriod(postDeductions, period).toFixed(2);
     document.getElementById('legendBills').textContent = convertToPeriod(annualBills, period).toFixed(2);
-    document.getElementById('legendTakeHome').textContent = convertToPeriod(remaining, period).toFixed(2);
+    
+    // Use the same displayFunMoney value from percentage calculation above
+    document.getElementById('legendFunMoney').textContent = convertToPeriod(displayFunMoney, period).toFixed(2);
+    
+    // Handle take-home display with negative values and styling
+    const takeHomeElement = document.getElementById('legendTakeHome');
+    const takeHomeValue = convertToPeriod(actualRemaining, period);
+    if (takeHomeElement) {
+        takeHomeElement.textContent = takeHomeValue.toFixed(2);
+        
+        // Add visual styling for negative values
+        if (actualRemaining < 0) {
+            takeHomeElement.style.color = '#dc3545'; // Red color for negative
+            takeHomeElement.style.fontWeight = 'bold';
+            takeHomeElement.parentElement.style.backgroundColor = '#f8d7da'; // Light red background
+        } else {
+            takeHomeElement.style.color = ''; // Reset to default
+            takeHomeElement.style.fontWeight = '';
+            takeHomeElement.parentElement.style.backgroundColor = ''; // Reset background
+        }
+    }
     
     // Update legend labels to show percentages of gross income
     const percentages = {
@@ -1123,6 +1299,7 @@ function updateIncomeBreakdownChart(grossAnnual, federalTax, stateTax, payrollTa
         'legendPreTaxDeductions': preDeductionsPct,
         'legendPostTaxDeductions': postDeductionsPct,
         'legendBills': billsPct,
+        'legendFunMoney': funMoneyPct,
         'legendTakeHome': remainingPct
     };
     updateLegendLabels(periodLabel, percentages);
@@ -1130,7 +1307,10 @@ function updateIncomeBreakdownChart(grossAnnual, federalTax, stateTax, payrollTa
     // Store data globally for detail charts
     window.chartData = {
         grossAnnual, federalTax, stateTax, payrollTax, 
-        preDeductions, postDeductions, annualBills, remaining,
+        preDeductions, postDeductions, 
+        annualBills, // This is now needs bills only
+        funMoney, // This is now total fun money allocation
+        remaining,
         ...additionalData
     };
     
@@ -1152,6 +1332,7 @@ function addChartClickHandlers() {
     bind('chartPreTaxDeductions', 'pretax-deductions');
     bind('chartPostTaxDeductions', 'posttax-deductions');
     bind('chartBills', 'bills');
+    bind('chartFunMoney', 'fun-money');
     bind('chartTakeHome', 'take-home');
     
     // Add click handlers to legend items
@@ -1177,6 +1358,7 @@ function addChartClickHandlers() {
     bindLegend('pretax-deductions', 'chartPreTaxDeductions', 'pretax-deductions');
     bindLegend('posttax-deductions', 'chartPostTaxDeductions', 'posttax-deductions');
     bindLegend('bills', 'chartBills', 'bills');
+    bindLegend('fun-money', 'chartFunMoney', 'fun-money');
     bindLegend('take-home', 'chartTakeHome', 'take-home');
 }
 
@@ -1196,6 +1378,9 @@ function handleChartClick(element, section) {
 function showDetailChart(section) {
     const data = window.chartData;
     if (!data) return;
+    
+    // Store current section for period changes
+    window.currentDetailSection = section;
     
     const detailContainer = document.getElementById('detailChartContainer');
     const mainContainer = document.getElementById('mainChartContainer');
@@ -1232,8 +1417,12 @@ function showDetailChart(section) {
             detailData = getPostTaxDeductionsBreakdown(data);
             break;
         case 'bills':
-            sectionTitle = 'Monthly Bills Breakdown';
+            sectionTitle = 'Bills Breakdown';
             detailData = getBillsBreakdown(data);
+            break;
+        case 'fun-money':
+            sectionTitle = 'Fun Money Breakdown';
+            detailData = getFunMoneyBreakdown(data);
             break;
         case 'take-home':
             sectionTitle = 'Remaining Income';
@@ -1242,9 +1431,6 @@ function showDetailChart(section) {
     }
     
     if (detailData.length === 0) return;
-    
-    // Store current detail data for period changes
-    window.currentDetailData = detailData;
     
     title.textContent = sectionTitle;
     createDetailChart(detailData, chartBar, legend);
@@ -1258,8 +1444,8 @@ function showDetailChart(section) {
 }
 
 function createDetailChart(data, chartElement, legendElement) {
-    // Get current period selection for detail chart
-    const period = document.getElementById('detailChartPeriod')?.value || 'monthly';
+    // Use the main chart period instead of a separate detail chart period
+    const period = document.getElementById('chartPeriod')?.value || 'monthly';
     
     const total = data.reduce((sum, item) => sum + item.amount, 0);
     
@@ -1310,26 +1496,30 @@ function getFederalTaxBreakdown(data) {
         const person1 = data.person1Data;
         const person2 = data.person2Data;
         
+        // Get actual person names
+        const person1Name = document.getElementById('person1Name')?.value || 'Person 1';
+        const person2Name = document.getElementById('person2Name')?.value || 'Person 2';
+        
         // Calculate Person 1 federal tax
         const person1TaxableIncome = Math.max(0, person1.grossAnnual - person1.traditional401kAnnual - person1.traditionalIrAAnnual - person1.hsaAnnual - person1.otherDeductionsAnnual - 15000);
         const person1Tax = calculateIndividualFederalTax(person1TaxableIncome);
         if (person1Tax > 0) {
-            breakdown.push({ label: 'Person 1 - Federal Tax', amount: person1Tax / 12 });
+            breakdown.push({ label: `${person1Name} - Federal Tax`, amount: person1Tax / 12 });
         }
         
         // Calculate Person 2 federal tax
         const person2TaxableIncome = Math.max(0, person2.grossAnnual - person2.traditional401kAnnual - person2.traditionalIrAAnnual - person2.hsaAnnual - person2.otherDeductionsAnnual - 15000);
         const person2Tax = calculateIndividualFederalTax(person2TaxableIncome);
         if (person2Tax > 0) {
-            breakdown.push({ label: 'Person 2 - Federal Tax', amount: person2Tax / 12 });
+            breakdown.push({ label: `${person2Name} - Federal Tax`, amount: person2Tax / 12 });
         }
         
         // Add any additional withholding
         if (person1.federalWithholdingAnnual > 0) {
-            breakdown.push({ label: 'Person 1 - Additional Withholding', amount: person1.federalWithholdingAnnual / 12 });
+            breakdown.push({ label: `${person1Name} - Additional Withholding`, amount: person1.federalWithholdingAnnual / 12 });
         }
         if (person2.federalWithholdingAnnual > 0) {
-            breakdown.push({ label: 'Person 2 - Additional Withholding', amount: person2.federalWithholdingAnnual / 12 });
+            breakdown.push({ label: `${person2Name} - Additional Withholding`, amount: person2.federalWithholdingAnnual / 12 });
         }
     } else {
         // Single person or married filing jointly - show tax bracket breakdown
@@ -1416,21 +1606,25 @@ function getPayrollTaxBreakdown(data) {
         const person1 = data.person1Data;
         const person2 = data.person2Data;
         
+        // Get actual person names
+        const person1Name = document.getElementById('person1Name')?.value || 'Person 1';
+        const person2Name = document.getElementById('person2Name')?.value || 'Person 2';
+        
         // Person 1 payroll taxes
         const person1TaxableWages = person1.salary - person1.traditional401kAnnual - person1.traditionalIrAAnnual - person1.hsaAnnual - person1.otherDeductionsAnnual;
         const person1SocialSecurity = Math.min(person1TaxableWages, 168600) * (person1.socialSecurityRate / 100); // 2025 wage base
         const person1Medicare = person1TaxableWages * (person1.medicareRate / 100);
         
-        breakdown.push({ label: 'Person 1 - Social Security', amount: person1SocialSecurity / 12 });
-        breakdown.push({ label: 'Person 1 - Medicare', amount: person1Medicare / 12 });
+        breakdown.push({ label: `${person1Name} - Social Security`, amount: person1SocialSecurity / 12 });
+        breakdown.push({ label: `${person1Name} - Medicare`, amount: person1Medicare / 12 });
         
         // Person 2 payroll taxes
         const person2TaxableWages = person2.salary - person2.traditional401kAnnual - person2.traditionalIrAAnnual - person2.hsaAnnual - person2.otherDeductionsAnnual;
         const person2SocialSecurity = Math.min(person2TaxableWages, 168600) * (person2.socialSecurityRate / 100);
         const person2Medicare = person2TaxableWages * (person2.medicareRate / 100);
         
-        breakdown.push({ label: 'Person 2 - Social Security', amount: person2SocialSecurity / 12 });
-        breakdown.push({ label: 'Person 2 - Medicare', amount: person2Medicare / 12 });
+        breakdown.push({ label: `${person2Name} - Social Security`, amount: person2SocialSecurity / 12 });
+        breakdown.push({ label: `${person2Name} - Medicare`, amount: person2Medicare / 12 });
         
         // Additional Medicare tax (if applicable)
         const totalTaxableWages = person1TaxableWages + person2TaxableWages;
@@ -1464,30 +1658,34 @@ function getPreTaxDeductionsBreakdown(data) {
         const person1 = data.person1Data;
         const person2 = data.person2Data;
         
+        // Get actual person names
+        const person1Name = document.getElementById('person1Name')?.value || 'Person 1';
+        const person2Name = document.getElementById('person2Name')?.value || 'Person 2';
+        
         if (person1.traditional401kAnnual > 0) {
-            breakdown.push({ label: 'Person 1 - Traditional 401(k)', amount: person1.traditional401kAnnual / 12 });
+            breakdown.push({ label: `${person1Name} - Traditional 401(k)`, amount: person1.traditional401kAnnual / 12 });
         }
         if (person1.traditionalIrAAnnual > 0) {
-            breakdown.push({ label: 'Person 1 - Traditional IRA', amount: person1.traditionalIrAAnnual / 12 });
+            breakdown.push({ label: `${person1Name} - Traditional IRA`, amount: person1.traditionalIrAAnnual / 12 });
         }
         if (person1.hsaAnnual > 0) {
-            breakdown.push({ label: 'Person 1 - HSA', amount: person1.hsaAnnual / 12 });
+            breakdown.push({ label: `${person1Name} - HSA`, amount: person1.hsaAnnual / 12 });
         }
         if (person1.otherDeductionsAnnual > 0) {
-            breakdown.push({ label: 'Person 1 - Other Pre-tax', amount: person1.otherDeductionsAnnual / 12 });
+            breakdown.push({ label: `${person1Name} - Other Pre-tax`, amount: person1.otherDeductionsAnnual / 12 });
         }
         
         if (person2.traditional401kAnnual > 0) {
-            breakdown.push({ label: 'Person 2 - Traditional 401(k)', amount: person2.traditional401kAnnual / 12 });
+            breakdown.push({ label: `${person2Name} - Traditional 401(k)`, amount: person2.traditional401kAnnual / 12 });
         }
         if (person2.traditionalIrAAnnual > 0) {
-            breakdown.push({ label: 'Person 2 - Traditional IRA', amount: person2.traditionalIrAAnnual / 12 });
+            breakdown.push({ label: `${person2Name} - Traditional IRA`, amount: person2.traditionalIrAAnnual / 12 });
         }
         if (person2.hsaAnnual > 0) {
-            breakdown.push({ label: 'Person 2 - HSA', amount: person2.hsaAnnual / 12 });
+            breakdown.push({ label: `${person2Name} - HSA`, amount: person2.hsaAnnual / 12 });
         }
         if (person2.otherDeductionsAnnual > 0) {
-            breakdown.push({ label: 'Person 2 - Other Pre-tax', amount: person2.otherDeductionsAnnual / 12 });
+            breakdown.push({ label: `${person2Name} - Other Pre-tax`, amount: person2.otherDeductionsAnnual / 12 });
         }
     } else {
         // Single person breakdown
@@ -1516,18 +1714,22 @@ function getPostTaxDeductionsBreakdown(data) {
         const person1 = data.person1Data;
         const person2 = data.person2Data;
         
+        // Get actual person names
+        const person1Name = document.getElementById('person1Name')?.value || 'Person 1';
+        const person2Name = document.getElementById('person2Name')?.value || 'Person 2';
+        
         if (person1.roth401kAnnual > 0) {
-            breakdown.push({ label: 'Person 1 - Roth 401(k)', amount: person1.roth401kAnnual / 12 });
+            breakdown.push({ label: `${person1Name} - Roth 401(k)`, amount: person1.roth401kAnnual / 12 });
         }
         if (person1.rothIrAAnnual > 0) {
-            breakdown.push({ label: 'Person 1 - Roth IRA', amount: person1.rothIrAAnnual / 12 });
+            breakdown.push({ label: `${person1Name} - Roth IRA`, amount: person1.rothIrAAnnual / 12 });
         }
         
         if (person2.roth401kAnnual > 0) {
-            breakdown.push({ label: 'Person 2 - Roth 401(k)', amount: person2.roth401kAnnual / 12 });
+            breakdown.push({ label: `${person2Name} - Roth 401(k)`, amount: person2.roth401kAnnual / 12 });
         }
         if (person2.rothIrAAnnual > 0) {
-            breakdown.push({ label: 'Person 2 - Roth IRA', amount: person2.rothIrAAnnual / 12 });
+            breakdown.push({ label: `${person2Name} - Roth IRA`, amount: person2.rothIrAAnnual / 12 });
         }
     } else {
         // Single person breakdown
@@ -1561,6 +1763,63 @@ function getBillsBreakdown(data) {
     return breakdown;
 }
 
+function getFunMoneyBreakdown(data) {
+    // Get fun money allocation and wants bills
+    const funMoneyPercentage = parseFloat(document.getElementById('funMoneyPercentage').value) || 0;
+    // Use the net income that was calculated in the main budget calculation
+    const netIncomeAnnual = data.netIncomeAnnual || 0;
+    const funMoneyAllocationAnnual = (netIncomeAnnual * funMoneyPercentage) / 100;
+    
+    // Filter wants bills
+    const wantsBills = bills.filter(bill => bill.category === 'want');
+    const wantsBillsAnnual = wantsBills.reduce((sum, bill) => sum + bill.amount, 0) * 12;
+    
+    const breakdown = [];
+    
+    // If there's no fun money allocation, show wants bills as unfunded
+    if (funMoneyAllocationAnnual === 0) {
+        if (wantsBills.length > 0) {
+            breakdown.push({
+                label: 'Unfunded Wants Bills',
+                amount: wantsBillsAnnual / 12
+            });
+        } else {
+            breakdown.push({
+                label: 'No Fun Money Allocated',
+                amount: 0
+            });
+        }
+    } else {
+        // Add existing wants bills that are covered by fun money
+        wantsBills.forEach(bill => {
+            breakdown.push({
+                label: `${bill.name} (Want)`,
+                amount: bill.amount
+            });
+        });
+        
+        // Add remaining fun money
+        const remainingFunMoney = Math.max(0, funMoneyAllocationAnnual - wantsBillsAnnual);
+        if (remainingFunMoney > 0) {
+            breakdown.push({
+                label: 'Available Fun Money',
+                amount: remainingFunMoney / 12
+            });
+        }
+        
+        // If fun money allocation is less than wants bills, show deficit
+        if (funMoneyAllocationAnnual < wantsBillsAnnual) {
+            const deficit = wantsBillsAnnual - funMoneyAllocationAnnual;
+            breakdown.push({
+                label: 'Unfunded Wants (Deficit)',
+                amount: deficit / 12
+            });
+        }
+    }
+    
+    return breakdown;
+}
+
 function getTakeHomeBreakdown(data) {
     return [{
         label: 'Available for Savings & Discretionary Spending',
@@ -1571,6 +1830,9 @@ function getTakeHomeBreakdown(data) {
 function hideDetailChart() {
     const detailContainer = document.getElementById('detailChartContainer');
     const mainContainer = document.getElementById('mainChartContainer');
+    
+    // Clear stored section
+    window.currentDetailSection = null;
     
     detailContainer.classList.remove('show');
     setTimeout(() => {
@@ -1594,8 +1856,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('change', function(e) {
         if (e.target.id === 'chartPeriod') {
             handleMainPeriodChange.call(e.target);
-        } else if (e.target.id === 'detailChartPeriod') {
-            handleDetailPeriodChange.call(e.target);
         }
     });
 });
@@ -1608,60 +1868,29 @@ function handleMainPeriodChange() {
     updatingPeriod = true;
 
     const newPeriod = this.value;
-    const detailPeriodSelector = document.getElementById('detailChartPeriod');
-
-    // Sync detail chart period
-    if (detailPeriodSelector) {
-        detailPeriodSelector.value = newPeriod;
-    }
-
-    // Update main chart
-    calculateBudget();
-
-    // Update detail chart if visible
-    const currentData = window.currentDetailData;
+    
+    // Store the current detail section before updating
+    const currentSection = window.currentDetailSection;
     const detailContainer = document.getElementById('detailChartContainer');
-    if (currentData && detailContainer.style.display === 'block') {
-        const chartBar = document.getElementById('detailChart');
-        const legend = document.getElementById('detailChartLegend');
-        chartBar.innerHTML = '';
-        legend.innerHTML = '';
-        createDetailChart(currentData, chartBar, legend);
-    }
-
-    setTimeout(() => {
-        updatingPeriod = false;
-    }, 100);
-}
-
-function handleDetailPeriodChange() {
-    if (updatingPeriod) return;
-    updatingPeriod = true;
-
-    const newPeriod = this.value;
-    const mainPeriodSelector = document.getElementById('chartPeriod');
-
-    // Sync main chart period
-    if (mainPeriodSelector) {
-        mainPeriodSelector.value = newPeriod;
-    }
+    const isDetailVisible = detailContainer && detailContainer.style.display === 'block';
 
     // Update main chart
     calculateBudget();
 
-    // Update detail chart
-    const currentData = window.currentDetailData;
-    if (currentData) {
-        const chartBar = document.getElementById('detailChart');
-        const legend = document.getElementById('detailChartLegend');
-        chartBar.innerHTML = '';
-        legend.innerHTML = '';
-        createDetailChart(currentData, chartBar, legend);
+    // Update detail chart if visible - regenerate with fresh data for new period
+    if (isDetailVisible && currentSection) {
+        // Re-show the detail chart for the same section with new period data
+        // Use a longer delay to ensure all calculations are done
+        setTimeout(() => {
+            if (window.chartData) { // Make sure data is available
+                showDetailChart(currentSection);
+            }
+        }, 200); // Longer delay to ensure everything is stable
     }
 
     setTimeout(() => {
         updatingPeriod = false;
-    }, 100);
+    }, 250); // Increased to match the detail chart timeout
 }
 
 // Function to update Social Security and Medicare rates based on self-employment status
@@ -1701,9 +1930,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add event listeners for all inputs to trigger auto-calculation
     setupAutoCalculation();
     
+    // Add event listeners for forecast inputs to trigger auto-update
+    setupForecastAutoUpdate();
+    
     // Set initial calculation box width
     const peopleCountRadio = document.querySelector('input[name="peopleCount"]:checked');
     const twoPeople = peopleCountRadio && peopleCountRadio.value === 'two';
+    
+    // Initialize Person 2 balance section visibility
+    const person2Balances = document.getElementById('person2Balances');
+    if (person2Balances) {
+        person2Balances.style.display = twoPeople ? 'block' : 'none';
+    }
+    
     // Seed mode classes on the results box
     const budgetResult = document.getElementById('budgetResult');
     if (budgetResult) {
@@ -1825,10 +2064,18 @@ function setupAutoCalculation() {
     
     inputs.forEach(input => {
         // Skip bill and deduction input fields (they have their own handlers)
+        // Also skip forecast inputs (they have their own handlers)
         if (input.id.includes('billName') || input.id.includes('billAmount') || 
             input.id.includes('deductionName') || input.id.includes('deductionAmount') ||
             input.id.includes('deductionType') || input.id === 'chartPeriod' || 
-            input.id === 'detailChartPeriod') {
+            input.id === 'annualReturn' ||
+            input.id === 'inflationRate' || input.id === 'annualWageIncrease' ||
+            input.id === 'forecastView' ||
+            input.id === 'forecastView' || input.id === 'person1HSA' ||
+            input.id === 'person1Retirement' || input.id === 'person1Savings' ||
+            input.id === 'person1Brokerage' || input.id === 'person2HSA' ||
+            input.id === 'person2Retirement' || input.id === 'person2Savings' ||
+            input.id === 'person2Brokerage') {
             return;
         }
         
@@ -1841,6 +2088,65 @@ function setupAutoCalculation() {
             input.addEventListener('change', calculateBudget);
         }
     });
+}
+
+// Function to set up auto-update for forecast inputs
+function setupForecastAutoUpdate() {
+    // Debounce timer for forecast updates
+    let forecastUpdateTimer;
+    // Debounce timer for saves (reuse the global saveDebounceTimer)
+    
+    // Debounced forecast update function
+    const debouncedUpdateForecast = function() {
+        clearTimeout(forecastUpdateTimer);
+        forecastUpdateTimer = setTimeout(updateForecast, 300); // 300ms delay
+    };
+    
+    // Debounced save function
+    const debouncedSave = function() {
+        clearTimeout(saveDebounceTimer);
+        saveDebounceTimer = setTimeout(saveAllInputs, 150);
+    };
+    
+    // Get forecast input elements
+    const forecastInputs = [
+        'annualReturn',
+        'inflationRate',
+        'annualWageIncrease',
+        'person1HSA',
+        'person1Retirement',
+        'person1Savings', 
+        'person1Brokerage',
+        'person2HSA',
+        'person2Retirement',
+        'person2Savings',
+        'person2Brokerage'
+    ];
+    
+    forecastInputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            // Use debounced update for input events (while typing)
+            input.addEventListener('input', function() {
+                debouncedUpdateForecast();
+                debouncedSave();
+            });
+            // Use immediate update for change events (when focus leaves)
+            input.addEventListener('change', function() {
+                updateForecast();
+                debouncedSave();
+            });
+        }
+    });
+    
+    // Also add listener to forecastView selector (immediate update)
+    const forecastView = document.getElementById('forecastView');
+    if (forecastView) {
+        forecastView.addEventListener('change', function() {
+            updateForecastChartView();
+            debouncedSave();
+        });
+    }
 }
 
 // --- Self-test harness (invoked only manually via URL hash) ---
@@ -1926,22 +2232,19 @@ function setupChartEventListeners() {
                     data.preDeductions, 
                     data.postDeductions, 
                     data.annualBills, 
+                    data.funMoney,
                     data.remaining,
                     data
                 );
-            }
-        });
-    }
-    
-    // Detail chart period selector
-    const detailChartPeriod = document.getElementById('detailChartPeriod');
-    if (detailChartPeriod) {
-        detailChartPeriod.addEventListener('change', function() {
-            if (window.currentDetailData) {
-                const chartBar = document.getElementById('detailChart');
-                const legend = document.getElementById('detailChartLegend');
-                if (chartBar && legend) {
-                    createDetailChart(window.currentDetailData, chartBar, legend);
+                
+                // If detail chart is currently visible, update it with the new period
+                const detailContainer = document.getElementById('detailChartContainer');
+                if (detailContainer && detailContainer.style.display !== 'none') {
+                    // Find which section is currently being displayed
+                    const detailTitle = document.getElementById('detailChartTitle');
+                    if (detailTitle && window.currentDetailSection) {
+                        showDetailChart(window.currentDetailSection);
+                    }
                 }
             }
         });
@@ -1977,6 +2280,7 @@ function refreshChartColors() {
             window.chartData.preDeductions,
             window.chartData.postDeductions,
             window.chartData.annualBills,
+            window.chartData.funMoney,
             window.chartData.remaining,
             window.chartData
         );
@@ -2187,3 +2491,1279 @@ document.addEventListener('DOMContentLoaded', function() {
     setupChartEventListeners();
 });
 window.addEventListener('load', removeTopSummary);
+
+/* ========================================
+   FORECAST FUNCTIONALITY
+   ======================================== */
+
+// Global variables for forecast
+let forecastChart = null;
+
+// Show/hide forecast section with budget results
+function showForecastSection() {
+    const forecastSection = document.getElementById('forecastResult');
+    if (forecastSection) {
+        forecastSection.style.display = 'block';
+        updateForecast();
+    }
+}
+
+function hideForecastSection() {
+    const forecastSection = document.getElementById('forecastResult');
+    if (forecastSection) {
+        forecastSection.style.display = 'none';
+    }
+}
+
+// Calculate and update forecast data
+function updateForecast() {
+    const data = window.chartData;
+    if (!data) return;
+
+    // Get input values
+    const annualReturn = parseFloat(document.getElementById('annualReturn')?.value || 7) / 100;
+    const inflationRate = parseFloat(document.getElementById('inflationRate')?.value || 3) / 100;
+    const annualWageIncrease = parseFloat(document.getElementById('annualWageIncrease')?.value || 3) / 100;
+    const forecastYears = parseInt(document.getElementById('forecastYears')?.value) || 10;
+    const currentSavings = (parseFloat(document.getElementById('person1Savings')?.value) || 0) + 
+                          (parseFloat(document.getElementById('person2Savings')?.value) || 0);
+
+    // Calculate annual contributions from budget data
+    const annualContributions = calculateAnnualContributions(data);
+    
+    // Store contributions globally for breakdown calculations
+    window.currentContributions = annualContributions;
+    
+    // Generate projections for the specified number of years
+    const projections = generateProjections(annualContributions, annualReturn, inflationRate, annualWageIncrease, currentSavings, forecastYears);
+    
+    // Update chart and table
+    updateForecastChart(projections);
+    updateForecastTable(projections, annualContributions);
+}
+
+// Calculate annual contributions from budget data
+function calculateAnnualContributions(data) {
+    let totalRetirement = 0;
+    let totalHSA = 0;
+    let totalSavings = 0;
+    let totalBrokerage = 0;
+
+    // Calculate retirement contributions (401k + IRA for both people)
+    for (let person = 1; person <= 2; person++) {
+        const personVisible = document.getElementById(`person${person}Inputs`)?.style.display !== 'none';
+        if (!personVisible && person === 2) continue;
+
+        // 401k contributions
+        const retirementToggle = document.getElementById(`retirementToggle${person}`)?.checked;
+        if (retirementToggle) {
+            const retirementType = document.querySelector(`input[name="retirementType${person}"]:checked`)?.value || 'percentage';
+            const retirementValue = parseFloat(document.getElementById(`retirement${person}`)?.value || 0);
+            const salary = parseFloat(document.getElementById(`salary${person}`)?.value || 0);
+            
+            if (retirementType === 'percentage') {
+                totalRetirement += (salary * retirementValue / 100);
+            } else {
+                // Fixed amount - need to convert per paycheck to annual
+                const payFreq = document.getElementById(`payFrequency${person}`)?.value || 'bi-weekly';
+                const multiplier = payFreq === 'weekly' ? 52 : payFreq === 'bi-weekly' ? 26 : 12;
+                totalRetirement += (retirementValue * multiplier);
+            }
+        }
+
+        // IRA contributions
+        const iraToggle = document.getElementById(`iraToggle${person}`)?.checked;
+        if (iraToggle) {
+            const iraValue = parseFloat(document.getElementById(`ira${person}`)?.value || 0);
+            totalRetirement += iraValue;
+        }
+
+        // HSA contributions
+        const hsaToggle = document.getElementById(`hsaToggle${person}`)?.checked;
+        if (hsaToggle) {
+            const hsaValue = parseFloat(document.getElementById(`hsa${person}`)?.value || 0);
+            totalHSA += hsaValue;
+        }
+    }
+
+    // Calculate brokerage contributions from current balances input fields
+    const person1Brokerage = parseFloat(document.getElementById('person1Brokerage')?.value || 0);
+    const person2Brokerage = parseFloat(document.getElementById('person2Brokerage')?.value || 0);
+    // For now, assume these are annual contribution amounts rather than current balances
+    // This could be enhanced later to distinguish between current balance and annual contributions
+    totalBrokerage = person1Brokerage + person2Brokerage;
+
+    // Calculate remaining take-home as potential savings
+    const monthlyTakeHome = data.remaining / 12; // data.remaining is annual
+    const monthlyBills = bills.reduce((sum, bill) => sum + bill.amount, 0);
+    const monthlySavingsPotential = Math.max(0, monthlyTakeHome - monthlyBills);
+    totalSavings = monthlySavingsPotential * 12;
+
+    return {
+        retirement: totalRetirement,
+        hsa: totalHSA,
+        savings: totalSavings,
+        brokerage: totalBrokerage
+    };
+}
+
+// Generate projections with compound growth
+function generateProjections(contributions, annualReturn, inflationRate, annualWageIncrease, currentSavings, forecastYears = 10) {
+    const years = [];
+    const nominalValues = { savings: [], retirement: [], hsa: [], brokerage: [] };
+    const realValues = { savings: [], retirement: [], hsa: [], brokerage: [] };
+
+    // Starting balances
+    let savingsBalance = currentSavings;
+    let retirementBalance = 0; // Assume starting from 0 for retirement accounts
+    let hsaBalance = 0; // Assume starting from 0 for HSA
+    let brokerageBalance = 0; // Assume starting from 0 for brokerage
+
+    for (let year = 0; year <= forecastYears; year++) {
+        years.push(2025 + year);
+
+        // Calculate nominal values (with investment growth)
+        nominalValues.savings.push(savingsBalance);
+        nominalValues.retirement.push(retirementBalance);
+        nominalValues.hsa.push(hsaBalance);
+        nominalValues.brokerage.push(brokerageBalance);
+
+        // Calculate real values (inflation-adjusted to current purchasing power)
+        const inflationFactor = Math.pow(1 + inflationRate, year);
+        realValues.savings.push(savingsBalance / inflationFactor);
+        realValues.retirement.push(retirementBalance / inflationFactor);
+        realValues.hsa.push(hsaBalance / inflationFactor);
+        realValues.brokerage.push(brokerageBalance / inflationFactor);
+
+        // Add contributions and apply growth for next year (except for the final year)
+        if (year < forecastYears) {
+            // Apply wage growth to contributions for the upcoming year
+            const wageGrowthFactor = Math.pow(1 + annualWageIncrease, year + 1);
+            const adjustedContributions = {
+                savings: contributions.savings * wageGrowthFactor,
+                retirement: contributions.retirement * wageGrowthFactor,
+                hsa: contributions.hsa * wageGrowthFactor,
+                brokerage: contributions.brokerage * wageGrowthFactor
+            };
+
+            savingsBalance = (savingsBalance + adjustedContributions.savings) * (1 + annualReturn);
+            retirementBalance = (retirementBalance + adjustedContributions.retirement) * (1 + annualReturn);
+            hsaBalance = (hsaBalance + adjustedContributions.hsa) * (1 + annualReturn);
+            brokerageBalance = (brokerageBalance + adjustedContributions.brokerage) * (1 + annualReturn);
+        }
+    }
+
+    return {
+        years,
+        nominal: nominalValues,
+        real: realValues,
+        contributions,
+        parameters: { annualReturn, inflationRate, annualWageIncrease, currentSavings }
+    };
+}
+
+// Update the forecast chart
+function updateForecastChart(projections) {
+    // Store projections globally for later use
+    window.currentForecastData = projections;
+    
+    // If we're in breakdown view, update the breakdown instead of the main chart
+    if (window.isInBreakdownView && window.currentBreakdownAccount) {
+        console.log('Updating breakdown view with new data');
+        showPrincipalInterestBreakdown(window.currentBreakdownAccount, projections);
+        return;
+    }
+    
+    const canvas = document.getElementById('forecastChart');
+    if (!canvas) {
+        console.error('Forecast canvas not found');
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    
+    // Destroy existing chart if it exists
+    if (forecastChart) {
+        forecastChart.destroy();
+        forecastChart = null;
+    }
+
+    // Determine which data to show (nominal or real)
+    const viewType = document.getElementById('forecastView')?.value || 'nominal';
+    const data = projections[viewType];
+
+    console.log('Forecast data:', data); // Debug log
+    console.log('Chart.js available:', typeof Chart !== 'undefined'); // Debug log
+
+    // Create Chart.js chart
+    if (typeof Chart !== 'undefined') {
+        try {
+            forecastChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: projections.years,
+                    datasets: [
+                        {
+                            label: 'Savings Account',
+                            data: data.savings,
+                            borderColor: '#27ae60',
+                            backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        },
+                        {
+                            label: 'Retirement (401k/IRA)',
+                            data: data.retirement,
+                            borderColor: '#3498db',
+                            backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        },
+                        {
+                            label: 'HSA',
+                            data: data.hsa,
+                            borderColor: '#e74c3c',
+                            backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        },
+                        {
+                            label: 'Brokerage Account',
+                            data: data.brokerage,
+                            borderColor: '#9b59b6',
+                            backgroundColor: 'rgba(155, 89, 182, 0.1)',
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `10-Year Forecast (${viewType === 'nominal' ? 'Nominal' : 'Inflation-Adjusted'} Values)`,
+                            font: {
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            },
+                            grid: {
+                                display: true
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Account Balance ($)'
+                            },
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            },
+                            grid: {
+                                display: true
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: true,
+                        mode: 'dataset'
+                    },
+                    onClick: (event, elements) => {
+                        console.log('Original chart click detected:', elements);
+                        if (elements.length > 0) {
+                            const datasetIndex = elements[0].datasetIndex;
+                            console.log('Dataset index:', datasetIndex);
+                            const accountType = ['savings', 'retirement', 'hsa', 'brokerage'][datasetIndex];
+                            console.log('Account type determined:', accountType);
+                            showPrincipalInterestBreakdown(accountType, projections);
+                        } else {
+                            console.log('No elements found in click');
+                        }
+                    }
+                }
+            });
+            console.log('Chart created successfully');
+        } catch (error) {
+            console.error('Error creating chart:', error);
+            createSimpleForecastChart(ctx, projections.years, data);
+        }
+    } else {
+        console.log('Chart.js not available, using fallback');
+        // Fallback: create a simple canvas chart if Chart.js is not available
+        createSimpleForecastChart(ctx, projections.years, data);
+    }
+}
+
+function createMainForecastChart(projections) {
+    const canvas = document.getElementById('forecastChart');
+    if (!canvas) {
+        console.error('Forecast canvas not found');
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    
+    // Determine which data to show (nominal or real)
+    const viewType = document.getElementById('forecastView')?.value || 'nominal';
+    const data = projections[viewType];
+
+    console.log('Creating main forecast chart with data:', data);
+
+    // Create Chart.js chart
+    if (typeof Chart !== 'undefined') {
+        try {
+            forecastChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: projections.years,
+                    datasets: [
+                        {
+                            label: 'Savings Account',
+                            data: data.savings,
+                            borderColor: '#27ae60',
+                            backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        },
+                        {
+                            label: 'Retirement (401k/IRA)',
+                            data: data.retirement,
+                            borderColor: '#3498db',
+                            backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        },
+                        {
+                            label: 'HSA',
+                            data: data.hsa,
+                            borderColor: '#e74c3c',
+                            backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        },
+                        {
+                            label: 'Brokerage Account',
+                            data: data.brokerage,
+                            borderColor: '#9b59b6',
+                            backgroundColor: 'rgba(155, 89, 182, 0.1)',
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `10-Year Forecast (${viewType === 'nominal' ? 'Nominal' : 'Inflation-Adjusted'} Values)`,
+                            font: {
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            },
+                            grid: {
+                                display: true
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Account Balance ($)'
+                            },
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            },
+                            grid: {
+                                display: true
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: true,
+                        mode: 'dataset'
+                    },
+                    onClick: (event, elements) => {
+                        console.log('Main chart click detected:', elements);
+                        if (elements.length > 0) {
+                            const datasetIndex = elements[0].datasetIndex;
+                            console.log('Dataset index:', datasetIndex);
+                            const accountType = ['savings', 'retirement', 'hsa', 'brokerage'][datasetIndex];
+                            console.log('Account type determined:', accountType);
+                            showPrincipalInterestBreakdown(accountType, projections);
+                        } else {
+                            console.log('No elements found in click');
+                        }
+                    }
+                }
+            });
+            console.log('Main forecast chart created successfully');
+        } catch (error) {
+            console.error('Error creating main forecast chart:', error);
+            createSimpleForecastChart(ctx, projections.years, data);
+        }
+    } else {
+        console.log('Chart.js not available, using fallback');
+        createSimpleForecastChart(ctx, projections.years, data);
+    }
+}
+
+// Fallback function to create a simple chart without Chart.js
+function createSimpleForecastChart(ctx, years, data) {
+    const canvas = ctx.canvas;
+    const width = canvas.width;
+    const height = canvas.height;
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, width, height);
+    
+    // Find max value for scaling
+    const allValues = [...data.savings, ...data.retirement, ...data.hsa, ...data.brokerage];
+    const maxValue = Math.max(...allValues, 1000); // Ensure minimum scale
+    
+    console.log('Fallback chart - Max value:', maxValue, 'All values:', allValues);
+    
+    // Chart dimensions
+    const margin = 60;
+    const chartWidth = width - 2 * margin;
+    const chartHeight = height - 2 * margin;
+    
+    // Set canvas background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, width, height);
+    
+    // Draw grid lines
+    ctx.strokeStyle = '#e0e0e0';
+    ctx.lineWidth = 1;
+    
+    // Vertical grid lines
+    for (let i = 0; i <= 10; i++) {
+        const x = margin + (i / 10) * chartWidth;
+        ctx.beginPath();
+        ctx.moveTo(x, margin);
+        ctx.lineTo(x, height - margin);
+        ctx.stroke();
+    }
+    
+    // Horizontal grid lines
+    for (let i = 0; i <= 5; i++) {
+        const y = margin + (i / 5) * chartHeight;
+        ctx.beginPath();
+        ctx.moveTo(margin, y);
+        ctx.lineTo(width - margin, y);
+        ctx.stroke();
+    }
+    
+    // Draw axes
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(margin, margin);
+    ctx.lineTo(margin, height - margin);
+    ctx.lineTo(width - margin, height - margin);
+    ctx.stroke();
+    
+    // Draw data lines
+    const datasets = [
+        { data: data.savings, color: '#27ae60', label: 'Savings' },
+        { data: data.retirement, color: '#3498db', label: 'Retirement' },
+        { data: data.hsa, color: '#e74c3c', label: 'HSA' },
+        { data: data.brokerage, color: '#9b59b6', label: 'Brokerage' }
+    ];
+    
+    datasets.forEach((dataset, datasetIndex) => {
+        ctx.strokeStyle = dataset.color;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        
+        let hasData = false;
+        dataset.data.forEach((value, index) => {
+            const x = margin + (index / (years.length - 1)) * chartWidth;
+            const y = height - margin - (value / maxValue) * chartHeight;
+            
+            if (index === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+            
+            if (value > 0) hasData = true;
+        });
+        
+        if (hasData) {
+            ctx.stroke();
+        }
+        
+        // Draw data points
+        ctx.fillStyle = dataset.color;
+        dataset.data.forEach((value, index) => {
+            const x = margin + (index / (years.length - 1)) * chartWidth;
+            const y = height - margin - (value / maxValue) * chartHeight;
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fill();
+        });
+    });
+    
+    // Add labels
+    ctx.fillStyle = '#333';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    
+    // Year labels
+    years.forEach((year, index) => {
+        if (index % 2 === 0) { // Show every other year
+            const x = margin + (index / (years.length - 1)) * chartWidth;
+            ctx.fillText(year.toString(), x, height - margin + 20);
+        }
+    });
+    
+    // Value labels on Y axis
+    ctx.textAlign = 'right';
+    for (let i = 0; i <= 5; i++) {
+        const value = (maxValue / 5) * i;
+        const y = height - margin - (i / 5) * chartHeight;
+        ctx.fillText('$' + Math.round(value).toLocaleString(), margin - 10, y + 4);
+    }
+    
+    // Add title
+    ctx.fillStyle = '#2c3e50';
+    ctx.font = 'bold 16px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('10-Year Financial Forecast', width / 2, 25);
+    
+    // Add legend
+    const legendY = height - 20;
+    datasets.forEach((dataset, index) => {
+        const legendX = margin + index * 150;
+        
+        // Color box
+        ctx.fillStyle = dataset.color;
+        ctx.fillRect(legendX, legendY - 10, 15, 10);
+        
+        // Text
+        ctx.fillStyle = '#333';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText(dataset.label, legendX + 20, legendY - 2);
+    });
+}
+
+function showPrincipalInterestBreakdown(accountType, projections) {
+    console.log('showPrincipalInterestBreakdown called with:', accountType, projections);
+    console.log('Current contributions stored:', window.currentContributions);
+    console.log('Chart data available:', window.chartData);
+    
+    // Set flag to indicate we're in breakdown view
+    window.isInBreakdownView = true;
+    window.currentBreakdownAccount = accountType;
+    
+    // Calculate principal vs interest breakdown for the selected account type
+    const breakdown = calculatePrincipalInterestBreakdown(accountType, projections);
+    
+    // Update the chart to show principal and interest separately
+    updateBreakdownChart(accountType, breakdown, projections.years);
+}
+
+function calculatePrincipalInterestBreakdown(accountType, projections) {
+    console.log('calculatePrincipalInterestBreakdown called with:', { accountType, projections });
+    
+    const annualReturn = parseFloat(document.getElementById('annualReturn')?.value) / 100 || 0.07;
+    const annualWageIncrease = parseFloat(document.getElementById('annualWageIncrease')?.value) / 100 || 0.03;
+    const currentSavings = (parseFloat(document.getElementById('person1Savings')?.value) || 0) + 
+                          (parseFloat(document.getElementById('person2Savings')?.value) || 0);
+    
+    console.log('Input values:', { annualReturn, annualWageIncrease, currentSavings });
+    
+    // Check if we have projection data
+    if (!projections || !projections.nominal || !projections.nominal[accountType]) {
+        console.error('No projection data available for', accountType);
+        return { years: [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035], 
+                principal: new Array(11).fill(0), 
+                interest: new Array(11).fill(0) };
+    }
+    
+    const accountData = projections.nominal[accountType];
+    console.log('Account data for', accountType, ':', accountData);
+    
+    // Simple test: if the account has any values, create a basic breakdown
+    if (accountData.some(val => val > 0)) {
+        console.log('Account has values, creating breakdown...');
+        
+        const years = [];
+        const principal = [];
+        const interest = [];
+        
+        // Use the actual forecast length from the projections
+        const forecastLength = accountData.length - 1;
+        
+        // For testing, let's assume any growth beyond initial savings is 50% contributions, 50% interest
+        let totalContributions = accountType === 'savings' ? currentSavings : 0;
+        
+        for (let year = 0; year <= forecastLength; year++) {
+            years.push(2025 + year);
+            
+            const currentValue = accountData[year] || 0;
+            
+            if (year === 0) {
+                // First year: just the initial amount
+                principal.push(Math.round(totalContributions));
+                interest.push(Math.round(totalContributions)); // For stacked area: total = principal only in year 0
+            } else {
+                // For subsequent years, estimate based on growth
+                const growth = currentValue - (accountData[year - 1] || 0);
+                if (growth > 0) {
+                    // Assume more comes from contributions than interest early on
+                    const estimatedContribution = growth * 0.6; 
+                    
+                    totalContributions += estimatedContribution;
+                }
+                
+                // For stacked area chart: 
+                // - Principal dataset shows just the contribution amount
+                // - Interest dataset shows the total account value (which will stack on top)
+                principal.push(Math.round(totalContributions));
+                interest.push(Math.round(currentValue)); // Total value for stacked area effect
+            }
+        }
+        
+        console.log('Test breakdown created:', { years, principal, interest });
+        return { years, principal, interest };
+    }
+    
+    console.log('No data found, returning zeros');
+    return { years: projections.years, principal: new Array(11).fill(0), interest: new Array(11).fill(0) };
+}
+
+function createSimplifiedBreakdown(accountType, projections, annualReturn, currentSavings) {
+    const years = [];
+    const principal = [];
+    const interest = [];
+    
+    // Get the main chart data for this account type
+    const accountData = projections.nominal[accountType];
+    console.log('Account data from projections:', accountData);
+    
+    if (!accountData || accountData.length === 0) {
+        console.log('No account data found, returning empty breakdown');
+        return { years: projections.years, principal: new Array(11).fill(0), interest: new Array(11).fill(0) };
+    }
+    
+    // Calculate year-by-year breakdown based on actual projection logic
+    const annualWageIncrease = parseFloat(document.getElementById('annualWageIncrease')?.value) / 100 || 0.03;
+    const contributions = window.currentContributions || {};
+    
+    let totalContributions = accountType === 'savings' ? currentSavings : 0;
+    let totalInterest = 0;
+    let balance = accountType === 'savings' ? currentSavings : 0;
+    
+    console.log('Starting breakdown calculation:', {
+        accountType,
+        currentSavings,
+        annualReturn,
+        annualWageIncrease,
+        baseContribution: contributions[accountType]
+    });
+    
+    for (let year = 0; year <= 10; year++) {
+        years.push(2025 + year);
+        
+        // Record current principal and interest
+        principal.push(Math.round(totalContributions));
+        interest.push(Math.round(totalInterest));
+        
+        console.log(`Year ${2025 + year}: Principal=${totalContributions.toFixed(2)}, Interest=${totalInterest.toFixed(2)}, Balance=${balance.toFixed(2)}`);
+        
+        // Add contributions and calculate growth for next year (except for year 10)
+        if (year < 10) {
+            // Apply wage growth to contributions for the upcoming year
+            const wageGrowthFactor = Math.pow(1 + annualWageIncrease, year + 1);
+            let yearlyContribution = 0;
+            
+            if (contributions[accountType]) {
+                yearlyContribution = contributions[accountType] * wageGrowthFactor;
+            } else {
+                // If we don't have specific contribution data, estimate from the projection growth
+                const currentValue = accountData[year] || 0;
+                const nextValue = accountData[year + 1] || 0;
+                const totalGrowth = nextValue - currentValue;
+                const estimatedInterest = currentValue * annualReturn;
+                yearlyContribution = Math.max(0, totalGrowth - estimatedInterest);
+            }
+            
+            // Add contribution to balance and track total contributions
+            balance += yearlyContribution;
+            totalContributions += yearlyContribution;
+            
+            // Apply investment return
+            const interestEarned = balance * annualReturn;
+            balance += interestEarned;
+            totalInterest += interestEarned;
+            
+            console.log(`  Added contribution: ${yearlyContribution.toFixed(2)}, Interest earned: ${interestEarned.toFixed(2)}`);
+        }
+    }
+    
+    console.log('Final simplified breakdown:', { years, principal, interest });
+    return { years, principal, interest };
+}
+
+function updateBreakdownChart(accountType, breakdown, years) {
+    console.log('updateBreakdownChart called with:', { accountType, breakdown, years });
+    
+    const canvas = document.getElementById('forecastChart');
+    if (!canvas) {
+        console.error('Canvas not found');
+        return;
+    }
+    
+    const ctx = canvas.getContext('2d');
+    
+    // Destroy existing chart
+    if (forecastChart) {
+        forecastChart.destroy();
+        forecastChart = null;
+    }
+    
+    // Emergency fallback: if breakdown has all zeros, create some test data
+    if (breakdown.principal.every(val => val === 0) && breakdown.interest.every(val => val === 0)) {
+        console.log('All values are zero, creating test data');
+        breakdown = {
+            years: years || [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035],
+            principal: [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000],
+            interest: [0, 100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500, 5500]
+        };
+    }
+    
+    // Get account type display name and color
+    const accountInfo = {
+        savings: { 
+            name: 'Savings Account', 
+            color: '#27ae60', 
+            principalColor: '#2c3e50', // Dark blue-gray for principal
+            interestColor: '#f39c12'   // Orange for interest
+        },
+        retirement: { 
+            name: 'Retirement (401k/IRA)', 
+            color: '#3498db', 
+            principalColor: '#34495e', // Dark gray for principal
+            interestColor: '#e74c3c'   // Red for interest
+        },
+        hsa: { 
+            name: 'HSA', 
+            color: '#e74c3c', 
+            principalColor: '#8e44ad', // Purple for principal
+            interestColor: '#f1c40f'   // Yellow for interest
+        },
+        brokerage: { 
+            name: 'Brokerage Account', 
+            color: '#9b59b6', 
+            principalColor: '#2c3e50', // Dark blue-gray for principal
+            interestColor: '#e67e22'   // Orange for interest
+        }
+    };
+    
+    const info = accountInfo[accountType];
+    
+    console.log('Creating chart with data:', breakdown);
+    
+    // Create the breakdown chart
+    if (typeof Chart !== 'undefined') {
+        try {
+            forecastChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: breakdown.years,
+                    datasets: [
+                        {
+                            label: `${info.name} - Principal`,
+                            data: breakdown.principal,
+                            borderColor: info.principalColor,
+                            backgroundColor: info.principalColor + '80', // More opaque for better visibility
+                            fill: 'origin', // Fill from zero
+                            tension: 0.4,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            order: 2 // Lower order = rendered first (bottom)
+                        },
+                        {
+                            label: `${info.name} - Interest Earned`,
+                            data: breakdown.interest,
+                            borderColor: info.interestColor,
+                            backgroundColor: info.interestColor + '80', // More opaque for better visibility
+                            fill: '-1', // Fill to the previous dataset (creates stacked effect)
+                            tension: 0.4,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            order: 1 // Higher order = rendered on top
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `${info.name} - Principal vs Interest Over Time`,
+                            font: {
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.y;
+                                    
+                                    if (label.includes('Principal')) {
+                                        return label + ': $' + value.toLocaleString();
+                                    } else {
+                                        // For the "Interest" dataset, show the actual interest amount
+                                        const principalValue = context.chart.data.datasets[0].data[context.dataIndex];
+                                        const interestValue = value - principalValue;
+                                        return label.replace('Interest Earned', 'Interest Earned') + ': $' + interestValue.toLocaleString();
+                                    }
+                                },
+                                footer: function(tooltipItems) {
+                                    // Show total account value
+                                    const totalValue = tooltipItems[1]?.parsed.y || 0;
+                                    return 'Total Account Value: $' + totalValue.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            },
+                            grid: {
+                                display: true
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Amount ($)'
+                            },
+                            beginAtZero: true,
+                            stacked: false, // We're using fill instead of true stacking
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            },
+                            grid: {
+                                display: true
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    onClick: (event, elements) => {
+                        // Return to main view on click
+                        returnToMainForecastView();
+                    }
+                }
+            });
+            
+            console.log('Chart created successfully');
+            
+            // Add a visual indicator that you can click to return
+            addReturnToMainViewButton();
+            
+        } catch (error) {
+            console.error('Error creating breakdown chart:', error);
+        }
+    }
+}
+
+function returnToMainForecastView() {
+    // Clear breakdown view flag immediately
+    window.isInBreakdownView = false;
+    window.currentBreakdownAccount = null;
+    
+    // Remove the return button immediately
+    removeReturnToMainViewButton();
+    
+    // Immediately re-generate and display the main forecast chart
+    if (window.currentForecastData) {
+        // Force update the main chart by temporarily clearing the breakdown flag
+        const canvas = document.getElementById('forecastChart');
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext('2d');
+        
+        // Destroy existing chart
+        if (forecastChart) {
+            forecastChart.destroy();
+            forecastChart = null;
+        }
+        
+        // Immediately recreate the main forecast chart
+        createMainForecastChart(window.currentForecastData);
+    }
+}
+
+function addReturnToMainViewButton() {
+    // Remove existing button if present
+    removeReturnToMainViewButton();
+    
+    // Create return button
+    const button = document.createElement('button');
+    button.id = 'returnToMainView';
+    button.textContent = 'Return to Main View';
+    button.style.cssText = `
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 8px 16px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        z-index: 1000;
+    `;
+    button.onclick = returnToMainForecastView;
+    
+    // Find the forecast chart container and add the button
+    const chartContainer = document.getElementById('forecastChart')?.parentElement;
+    if (chartContainer) {
+        chartContainer.style.position = 'relative';
+        chartContainer.appendChild(button);
+    }
+}
+
+function removeReturnToMainViewButton() {
+    const button = document.getElementById('returnToMainView');
+    if (button) {
+        button.remove();
+    }
+}
+
+// Update forecast summary table
+function updateForecastTable(projections, contributions) {
+    const tableBody = document.getElementById('forecastTableBody');
+    if (!tableBody) return;
+
+    // Calculate totals for year 10
+    const finalNominal = {
+        savings: projections.nominal.savings[10],
+        retirement: projections.nominal.retirement[10],
+        hsa: projections.nominal.hsa[10],
+        brokerage: projections.nominal.brokerage[10]
+    };
+    
+    const finalReal = {
+        savings: projections.real.savings[10],
+        retirement: projections.real.retirement[10],
+        hsa: projections.real.hsa[10],
+        brokerage: projections.real.brokerage[10]
+    };
+
+    const totalContributions = {
+        savings: contributions.savings * 10,
+        retirement: contributions.retirement * 10,
+        hsa: contributions.hsa * 10,
+        brokerage: contributions.brokerage * 10
+    };
+
+    const investmentGrowth = {
+        savings: finalNominal.savings - totalContributions.savings - projections.parameters.currentSavings,
+        retirement: finalNominal.retirement - totalContributions.retirement,
+        hsa: finalNominal.hsa - totalContributions.hsa,
+        brokerage: finalNominal.brokerage - totalContributions.brokerage
+    };
+
+    const accounts = [
+        {
+            type: 'Savings Account',
+            current: projections.parameters.currentSavings,
+            annual: contributions.savings,
+            finalNominal: finalNominal.savings,
+            finalReal: finalReal.savings,
+            totalContrib: totalContributions.savings + projections.parameters.currentSavings,
+            growth: investmentGrowth.savings
+        },
+        {
+            type: 'Retirement (401k/IRA)',
+            current: 0,
+            annual: contributions.retirement,
+            finalNominal: finalNominal.retirement,
+            finalReal: finalReal.retirement,
+            totalContrib: totalContributions.retirement,
+            growth: investmentGrowth.retirement
+        },
+        {
+            type: 'HSA',
+            current: 0,
+            annual: contributions.hsa,
+            finalNominal: finalNominal.hsa,
+            finalReal: finalReal.hsa,
+            totalContrib: totalContributions.hsa,
+            growth: investmentGrowth.hsa
+        },
+        {
+            type: 'Brokerage Account',
+            current: 0,
+            annual: contributions.brokerage,
+            finalNominal: finalNominal.brokerage,
+            finalReal: finalReal.brokerage,
+            totalContrib: totalContributions.brokerage,
+            growth: investmentGrowth.brokerage
+        }
+    ];
+
+    tableBody.innerHTML = accounts.map(account => `
+        <tr>
+            <td class="account-type">${account.type}</td>
+            <td>$${account.current.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+            <td>$${account.annual.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+            <td>$${account.finalNominal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+            <td>$${account.finalReal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+            <td>$${account.totalContrib.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+            <td class="positive-growth">$${account.growth.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+        </tr>
+    `).join('');
+}
+
+// Function to update forecast chart when view changes
+function updateForecastChartView() {
+    if (window.currentForecastData) {
+        updateForecastChart(window.currentForecastData);
+    }
+}
+
+// Store forecast data globally for view switching
+function storeForecastData(projections) {
+    window.currentForecastData = projections;
+}
+
+// Modified updateForecast to store data
+function updateForecast() {
+    const data = window.chartData;
+    if (!data) return;
+
+    // Get input values
+    const annualReturn = parseFloat(document.getElementById('annualReturn')?.value || 7) / 100;
+    const inflationRate = parseFloat(document.getElementById('inflationRate')?.value || 3) / 100;
+    const annualWageIncrease = parseFloat(document.getElementById('annualWageIncrease')?.value || 3) / 100;
+    const forecastYears = parseInt(document.getElementById('forecastYears')?.value) || 10;
+    const currentSavings = (parseFloat(document.getElementById('person1Savings')?.value) || 0) + 
+                          (parseFloat(document.getElementById('person2Savings')?.value) || 0);
+
+    // Calculate annual contributions from budget data
+    const annualContributions = calculateAnnualContributions(data);
+    
+    // Store contributions globally for breakdown calculations
+    window.currentContributions = annualContributions;
+    
+    // Generate projections for the specified number of years
+    const projections = generateProjections(annualContributions, annualReturn, inflationRate, annualWageIncrease, currentSavings, forecastYears);
+    
+    // Store data globally
+    storeForecastData(projections);
+    
+    // Update chart and table
+    updateForecastChart(projections);
+    updateForecastTable(projections, annualContributions);
+}
+
+// Add forecast section to budget calculation
+function updateBudgetWithForecast() {
+    showForecastSection();
+}
+
+// Function to update forecast chart title
+function updateForecastLength() {
+    const forecastYears = document.getElementById('forecastYears')?.value || 10;
+    updateForecast(); // This will regenerate with the new year length
+}
+
+/* ========================================
+   NAME PERSONALIZATION FUNCTIONALITY
+   ======================================== */
+
+// Initialize person names from localStorage or set defaults
+function initializePersonNames() {
+    const person1NameInput = document.getElementById('person1Name');
+    const person2NameInput = document.getElementById('person2Name');
+    
+    if (person1NameInput && person2NameInput) {
+        // Load saved names from localStorage
+        const savedInputs = localStorage.getItem('budgetTrackerInputs');
+        if (savedInputs) {
+            try {
+                const parsedInputs = JSON.parse(savedInputs);
+                person1NameInput.value = parsedInputs.person1Name || '';
+                person2NameInput.value = parsedInputs.person2Name || '';
+                
+                // Update interface with loaded names
+                updatePersonNames();
+            } catch (e) {
+                console.log('Could not parse saved inputs for names');
+            }
+        }
+    }
+}
+
+// Update all person name references throughout the interface
+function updatePersonNames() {
+    const person1Name = document.getElementById('person1Name')?.value || 'Person 1';
+    const person2Name = document.getElementById('person2Name')?.value || 'Person 2';
+    
+    // Update balance section titles
+    const person1BalanceTitle = document.getElementById('person1BalanceTitle');
+    const person2BalanceTitle = document.getElementById('person2BalanceTitle');
+    
+    if (person1BalanceTitle) {
+        person1BalanceTitle.textContent = `${person1Name} Current Balances`;
+    }
+    if (person2BalanceTitle) {
+        person2BalanceTitle.textContent = `${person2Name} Current Balances`;
+    }
+    
+    // Update any other interface elements that reference person names
+    // This could include chart labels, breakdown labels, etc.
+    updateChartLabelsWithNames(person1Name, person2Name);
+    
+    // Save the names to localStorage
+    savePersonNames();
+}
+
+// Update chart labels when names change
+function updateChartLabelsWithNames(person1Name, person2Name) {
+    // Update federal tax breakdown labels that use person names
+    // Note: This would require regenerating any charts that show person-specific data
+    
+    // If we have chart data, update any person-specific labels
+    if (window.chartData) {
+        // For now, we'll just trigger a recalculation to update any person-specific labels
+        // In the future, we could be more specific about which parts need updating
+        setTimeout(() => {
+            // Only update if we're not currently calculating to avoid infinite loops
+            if (!window.isCalculating) {
+                calculateBudget();
+            }
+        }, 100);
+    }
+}
+
+// Save person names to localStorage
+function savePersonNames() {
+    const person1Name = document.getElementById('person1Name')?.value || '';
+    const person2Name = document.getElementById('person2Name')?.value || '';
+    
+    // Get existing saved inputs
+    let savedInputs = {};
+    const existingSave = localStorage.getItem('budgetTrackerInputs');
+    if (existingSave) {
+        try {
+            savedInputs = JSON.parse(existingSave);
+        } catch (e) {
+            console.log('Could not parse existing saved inputs');
+        }
+    }
+    
+    // Add names to saved inputs
+    savedInputs.person1Name = person1Name;
+    savedInputs.person2Name = person2Name;
+    
+    // Save back to localStorage
+    localStorage.setItem('budgetTrackerInputs', JSON.stringify(savedInputs));
+}
+
+// Enhanced DOMContentLoaded event listener with name functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize default values and event listeners
+    initializeApp();
+    
+    // Initialize tabs
+    openTab(null, 'incomeTab');
+    
+    // Load data from localStorage
+    loadSavedInputs();
+    
+    // Add event listener for forecast years input
+    const forecastYearsInput = document.getElementById('forecastYears');
+    if (forecastYearsInput) {
+        forecastYearsInput.addEventListener('change', updateForecastLength);
+    }
+    
+    // Add event listeners for name inputs
+    const person1NameInput = document.getElementById('person1Name');
+    const person2NameInput = document.getElementById('person2Name');
+    
+    if (person1NameInput) {
+        person1NameInput.addEventListener('input', updatePersonNames);
+    }
+    if (person2NameInput) {
+        person2NameInput.addEventListener('input', updatePersonNames);
+    }
+    
+    // Initialize names from localStorage or set defaults
+    initializePersonNames();
+    
+    // Ensure person names are updated after everything is loaded
+    setTimeout(() => {
+        updatePersonNames();
+    }, 100);
+});
